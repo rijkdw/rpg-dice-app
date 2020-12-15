@@ -17,7 +17,7 @@ class DiceCollection {
   // TODO
 
   // GETTERS
-  String get name => this._name ?? this._dice;
+  String get name => this._name;
   String get dice => this._dice;
   int get id => this._id;
 
