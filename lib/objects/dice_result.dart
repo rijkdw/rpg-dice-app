@@ -8,13 +8,13 @@ class DiceResult {
   List<int> _retainedOutcomes;
   int _constantModifier;
 
-  // GETTERS
+  // GETTERS TODO remove the dummy values
   DiceCollection get diceCollection => this._diceCollection;
-  List<int> get allOutcomes => this._allOutcomes;
-  List<int> get retainedOutcomes => this._retainedOutcomes;
-  int get constantModifier => this._constantModifier;
+  List<int> get allOutcomes => this._allOutcomes ?? [3, 4, 5, 6];
+  List<int> get retainedOutcomes => this._retainedOutcomes ?? [4, 5, 6];
+  int get constantModifier => this._constantModifier ?? 3;
 
-  int get total => sumList(this._retainedOutcomes) + this._constantModifier;
+  int get total => sumList(this.retainedOutcomes) + this.constantModifier;
 
   // SETTERS
 }

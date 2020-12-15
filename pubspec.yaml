@@ -30,6 +30,7 @@ dependencies:
   provider:
   font_awesome_flutter:
   dart_dice_parser:
+  petitparser:
 
 dev_dependencies:
   flutter_test:

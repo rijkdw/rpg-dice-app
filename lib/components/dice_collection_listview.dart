@@ -6,6 +6,9 @@ import 'package:rpg_dice/managers/collection_manager.dart';
 class DiceCollectionListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    ScrollController listViewController = ScrollController();
+
     return Consumer<CollectionManager>(
       builder: (context, collectionManager, child) {
         List<Widget> listTiles = collectionManager.diceCollections
@@ -13,8 +16,13 @@ class DiceCollectionListView extends StatelessWidget {
                   diceCollection: col,
                 ))
             .toList();
-        return ListView(
-          children: listTiles,
+        return Scrollbar(
+          controller: listViewController,
+          isAlwaysShown: true,
+          child: ListView(
+            controller: listViewController,
+            children: listTiles,
+          ),
         );
       },
     );
