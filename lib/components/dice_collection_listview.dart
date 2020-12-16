@@ -25,16 +25,11 @@ class DiceCollectionListView extends StatelessWidget {
           child: Scrollbar(
             controller: listViewController,
             isAlwaysShown: true,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Provider.of<ThemeManager>(context).theme.listViewBackgroundColor,
-              ),
-              child: ScrollConfiguration(
-                behavior: NoGlowScrollBehavior(),
-                child: ListView(
-                  controller: listViewController,
-                  children: listTiles,
-                ),
+            child: ScrollConfiguration(
+              behavior: NoGlowScrollBehavior(),
+              child: ListView(
+                controller: listViewController,
+                children: listTiles,
               ),
             ),
           ),
