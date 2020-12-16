@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_collection_menu_popup.dart';
 import 'package:rpg_dice/components/dice_roller_popup.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
-import 'package:rpg_dice/objects/app_theme.dart';
+import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 
 class DiceCollectionListTile extends StatelessWidget {
