@@ -29,12 +29,18 @@ class ThemeManager extends ChangeNotifier {
       listTileSubtitleTextColor: ColorPalette.medGray,
       // list view
       listViewBackgroundColor: Colors.white,
+      listViewScrollBarColor: ColorPalette.white180,
       // dice roller popup
       rollerPopupBackgroundColor: Colors.white,
       rollerPopupNameAndExpressionColor: ColorPalette.darkGray,
       rollerPopupHistoryResultColor: Colors.black,
       rollerPopupTotalColor: Colors.black,
       rollerPopupHistoryLabelColor: ColorPalette.darkGray,
+      // menu popup
+      menuPopupListTileTextColor: Colors.black,
+      menuPopupListTileIconColor: Colors.red,
+      menuPopupBackgroundColor: Colors.white,
+      menuPopupListTileDividerColor: ColorPalette.medGray,
     ),
     ThemeSelection.DARK: MyAppTheme(
       // drawer
@@ -52,12 +58,18 @@ class ThemeManager extends ChangeNotifier {
       listTileSubtitleTextColor: Colors.white70,
       // list view
       listViewBackgroundColor: ColorPalette.darkGray,
+      listViewScrollBarColor: ColorPalette.lightGray,
       // dice roller popup
       rollerPopupBackgroundColor: ColorPalette.medGray,
       rollerPopupNameAndExpressionColor: ColorPalette.white225,
       rollerPopupHistoryLabelColor: ColorPalette.white180,
       rollerPopupTotalColor: Colors.white,
       rollerPopupHistoryResultColor: ColorPalette.white225,
+      // menu popup
+      menuPopupBackgroundColor: ColorPalette.medGray,
+      menuPopupListTileDividerColor: ColorPalette.white180,
+      menuPopupListTileIconColor: Colors.white,
+      menuPopupListTileTextColor: Colors.white,
     ),
   };
 
@@ -67,7 +79,8 @@ class ThemeManager extends ChangeNotifier {
   // CONSTRUCTOR
 
   ThemeManager() {
-    this._currentThemeSelection = ThemeSelection.LIGHT;
+    this._currentThemeSelection = ThemeSelection.DARK;
+    // TODO make this a saved setting via SharedPreferences or something
   }
 
   // FUNCTIONS

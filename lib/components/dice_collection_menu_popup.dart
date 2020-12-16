@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
+import 'package:rpg_dice/objects/my_app_theme.dart';
 
 class DiceCollectionMenuPopup extends StatelessWidget {
   DiceCollection _diceCollection;
@@ -14,6 +15,8 @@ class DiceCollectionMenuPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
+
     Widget editMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.wrench,
       text: "Edit",
@@ -27,6 +30,7 @@ class DiceCollectionMenuPopup extends StatelessWidget {
     );
 
     return Dialog(
+      backgroundColor: theme.menuPopupBackgroundColor,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
@@ -35,15 +39,15 @@ class DiceCollectionMenuPopup extends StatelessWidget {
           children: [
             Text(
               this._diceCollection.name ?? "Unnamed hand",
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(fontSize: 30, color: theme.menuPopupListTileTextColor),
             ),
             SizedBox(height: 8),
             Text(
               this._diceCollection.expression,
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, color: theme.menuPopupListTileTextColor),
             ),
             SizedBox(height: 8),
-            Divider(thickness: 2),
+            Divider(thickness: 2, color: theme.menuPopupListTileDividerColor),
             editMenuItem,
             deleteMenuItem,
           ],
@@ -66,13 +70,18 @@ class _MenuListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
+
     return ListTile(
       onTap: this._onTap,
       leading: Icon(
         this._iconData,
-        color: Provider.of<ThemeManager>(context).theme.drawerBodyIconColor,
+        color: theme.menuPopupListTileIconColor,
       ),
-      title: Text(this._text),
+      title: Text(
+        this._text,
+        style: TextStyle(color: theme.menuPopupListTileTextColor),
+      ),
     );
   }
 }

@@ -15,6 +15,7 @@ class MyAppTheme {
 
   // listview
   Color listViewBackgroundColor;
+  Color listViewScrollBarColor;
 
   // listtile
   Color listTileTitleTextColor;
@@ -27,6 +28,12 @@ class MyAppTheme {
   Color rollerPopupHistoryLabelColor;
   Color rollerPopupTotalColor;
   Color rollerPopupHistoryResultColor;
+
+  // menu popup
+  Color menuPopupBackgroundColor;
+  Color menuPopupListTileIconColor;
+  Color menuPopupListTileTextColor;
+  Color menuPopupListTileDividerColor;
 
   // CONSTRUCTOR
   MyAppTheme({
@@ -41,6 +48,7 @@ class MyAppTheme {
     this.appbarTextColor,
     // list view
     this.listViewBackgroundColor,
+    this.listViewScrollBarColor,
     // list tile
     this.listTileTitleTextColor,
     this.listTileSubtitleTextColor,
@@ -51,6 +59,11 @@ class MyAppTheme {
     this.rollerPopupHistoryLabelColor,
     this.rollerPopupHistoryResultColor,
     this.rollerPopupTotalColor,
+    // menu popup
+    this.menuPopupBackgroundColor,
+    this.menuPopupListTileDividerColor,
+    this.menuPopupListTileIconColor,
+    this.menuPopupListTileTextColor,
   });
 
 // CONSTRUCTOR
