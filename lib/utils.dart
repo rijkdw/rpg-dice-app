@@ -15,3 +15,5 @@ List<Widget> intersperse(List<Widget> list, Widget Function() function) {
   listToReturn.removeLast();
   return listToReturn;
 }
+
+String toSentenceCase(String input) => input[0].toUpperCase() + input.substring(1).toLowerCase();

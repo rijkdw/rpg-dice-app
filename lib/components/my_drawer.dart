@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rpg_dice/components/menu_list_tile.dart';
+import 'package:rpg_dice/managers/theme_manager.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -6,26 +9,26 @@ class MyDrawer extends StatelessWidget {
     // widgets
     Widget drawerHeader = DrawerHeader(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Provider.of<ThemeManager>(context).theme.drawerHeaderColor,
       ),
     );
 
-    Widget settingsMenuItem = _MenuListTile(
+    Widget settingsMenuItem = MenuListTile(
       text: "Settings",
       iconData: Icons.settings,
       onTap: () {},
     );
 
-    Widget donateMenuItem = _MenuListTile(
+    Widget donateMenuItem = MenuListTile(
       text: "Donate",
       iconData: Icons.monetization_on,
       onTap: () {},
     );
 
-    Widget darkModeMenuItem = _MenuListTile(
-      text: "Dark mode",
+    Widget darkModeMenuItem = MenuListTile(
+      text: "${Provider.of<ThemeManager>(context).currentThemeAsString} mode",
       iconData: Icons.lightbulb,
-      onTap: () {},
+      onTap: () => Provider.of<ThemeManager>(context, listen: false).swapSelection(),
     );
 
     return Drawer(
@@ -41,27 +44,6 @@ class MyDrawer extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _MenuListTile extends StatelessWidget {
-  String _text;
-  IconData _iconData;
-  VoidCallback _onTap;
-
-  _MenuListTile({String text, IconData iconData, VoidCallback onTap}) {
-    this._text = text;
-    this._iconData = iconData;
-    this._onTap = onTap;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: this._onTap,
-      leading: Icon(this._iconData),
-      title: Text(this._text),
     );
   }
 }

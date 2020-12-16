@@ -25,7 +25,9 @@ class DiceCollectionListTile extends StatelessWidget {
     void onLongPress() {
       showDialog(
         context: context,
-        builder: (_) => DiceCollectionMenuPopup(),
+        builder: (_) => DiceCollectionMenuPopup(
+          diceCollection: this._diceCollection,
+        ),
       );
     }
 
