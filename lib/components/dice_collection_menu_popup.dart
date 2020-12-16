@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rpg_dice/components/menu_list_tile.dart';
+import 'package:provider/provider.dart';
+import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 
 class DiceCollectionMenuPopup extends StatelessWidget {
@@ -67,7 +68,10 @@ class _MenuListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: this._onTap,
-      leading: Icon(this._iconData),
+      leading: Icon(
+        this._iconData,
+        color: Provider.of<ThemeManager>(context).theme.drawerBodyIconColor,
+      ),
       title: Text(this._text),
     );
   }
