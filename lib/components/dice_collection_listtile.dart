@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_collection_menu_popup.dart';
 import 'package:rpg_dice/components/dice_roller_popup.dart';
+import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/objects/app_theme.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 
 class DiceCollectionListTile extends StatelessWidget {
@@ -13,6 +16,9 @@ class DiceCollectionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
+
     void onTap() {
       showDialog(
         context: context,
@@ -31,25 +37,34 @@ class DiceCollectionListTile extends StatelessWidget {
       );
     }
 
+    TextStyle titleTextStyle = TextStyle(
+      // fontWeight: FontWeight.bold,
+      color: theme.listTileTitleTextColor,
+    );
+
+    TextStyle subtitleTextStyle = TextStyle(
+      color: theme.listTileSubtitleTextColor,
+    );
+
     Widget leadingIcon = FaIcon(
       FontAwesomeIcons.diceD20,
       // size: 20,
-      color: Theme.of(context).primaryColor,
+      color: theme.listTileIconColor,
     );
 
     // if no name
     if (this._diceCollection.name == null) {
       return ListTile(
         leading: leadingIcon,
-        title: Text(this._diceCollection.expression),
+        title: Text(this._diceCollection.expression, style: titleTextStyle),
         onTap: onTap,
         onLongPress: onLongPress,
       );
     } else {
       return ListTile(
         leading: leadingIcon,
-        title: Text(this._diceCollection.name),
-        // subtitle: Text(this._diceCollection.expression),
+        title: Text(this._diceCollection.name, style: titleTextStyle),
+        subtitle: Text(this._diceCollection.expression, style: subtitleTextStyle),
         onTap: onTap,
         onLongPress: onLongPress,
       );

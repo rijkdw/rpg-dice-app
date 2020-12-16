@@ -13,13 +13,13 @@ class DiceCollectionMenuPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget editMenuItem = MenuListTile(
+    Widget editMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.wrench,
       text: "Edit",
       onTap: () {},
     );
 
-    Widget deleteMenuItem = MenuListTile(
+    Widget deleteMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.trash,
       text: "Delete",
       onTap: () {},
@@ -48,6 +48,27 @@ class DiceCollectionMenuPopup extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MenuListTile extends StatelessWidget {
+  String _text;
+  IconData _iconData;
+  VoidCallback _onTap;
+
+  _MenuListTile({String text, IconData iconData, VoidCallback onTap}) {
+    this._text = text;
+    this._iconData = iconData;
+    this._onTap = onTap;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: this._onTap,
+      leading: Icon(this._iconData),
+      title: Text(this._text),
     );
   }
 }

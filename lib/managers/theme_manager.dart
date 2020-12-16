@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rpg_dice/objects/app_theme.dart';
+import 'package:rpg_dice/color_palette.dart' as ColorPalette;
 import 'package:rpg_dice/utils.dart';
 
 enum ThemeSelection {
@@ -13,10 +14,36 @@ class ThemeManager extends ChangeNotifier {
   // the map containing light mode and dark mode's colors
   Map<ThemeSelection, MyAppTheme> _themeMap = {
     ThemeSelection.LIGHT: MyAppTheme(
+      // drawer
       drawerHeaderColor: Colors.red,
+      drawerHeaderTextColor: Colors.white,
+      drawerBodyColor: Colors.white,
+      drawerBodyTextColor: Colors.black,
+      drawerBodyIconColor: Colors.red,
+      // appbar
+      appbarColor: Colors.red,
+      appbarTextColor: Colors.white,
+      // list
+      listTileIconColor: Colors.red,
+      listTileTitleTextColor: Colors.black,
+      listTileSubtitleTextColor: ColorPalette.medGray,
+      listViewBackgroundColor: Colors.white,
     ),
     ThemeSelection.DARK: MyAppTheme(
-      drawerHeaderColor: Colors.black54,
+      // drawer
+      drawerHeaderColor: ColorPalette.medGray,
+      drawerHeaderTextColor: Colors.white,
+      drawerBodyColor: ColorPalette.darkGray,
+      drawerBodyTextColor: Colors.white,
+      drawerBodyIconColor: Colors.white,
+      // appbar
+      appbarColor: ColorPalette.medGray,
+      appbarTextColor: Colors.white,
+      // list
+      listTileIconColor: Colors.red,
+      listTileTitleTextColor: Colors.white,
+      listTileSubtitleTextColor: Colors.white70,
+      listViewBackgroundColor: ColorPalette.darkGray,
     ),
   };
 

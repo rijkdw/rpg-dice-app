@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_collection_listtile.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
+import 'package:rpg_dice/managers/theme_manager.dart';
 
 class DiceCollectionListView extends StatelessWidget {
   @override
@@ -19,9 +20,14 @@ class DiceCollectionListView extends StatelessWidget {
         return Scrollbar(
           controller: listViewController,
           isAlwaysShown: true,
-          child: ListView(
-            controller: listViewController,
-            children: listTiles,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Provider.of<ThemeManager>(context).theme.listViewBackgroundColor,
+            ),
+            child: ListView(
+              controller: listViewController,
+              children: listTiles,
+            ),
           ),
         );
       },
