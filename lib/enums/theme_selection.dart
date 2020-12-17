@@ -1,0 +1,4 @@
+enum ThemeSelection {
+  LIGHT,
+  DARK,
+}

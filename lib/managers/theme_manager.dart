@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rpg_dice/enums/theme_selection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/color_palette.dart' as ColorPalette;
 import 'package:rpg_dice/utils.dart';
-
-enum ThemeSelection {
-  LIGHT,
-  DARK,
-}
 
 class ThemeManager extends ChangeNotifier {
   // ATTRIBUTES
@@ -48,7 +44,7 @@ class ThemeManager extends ChangeNotifier {
       drawerHeaderTextColor: Colors.white,
       drawerBodyColor: ColorPalette.darkGray,
       drawerBodyTextColor: Colors.white,
-      drawerBodyIconColor: Colors.white,
+      drawerBodyIconColor: Colors.red,
       // appbar
       appbarColor: ColorPalette.medGray,
       appbarTextColor: Colors.white,
@@ -68,7 +64,7 @@ class ThemeManager extends ChangeNotifier {
       // menu popup
       menuPopupBackgroundColor: ColorPalette.medGray,
       menuPopupListTileDividerColor: ColorPalette.white180,
-      menuPopupListTileIconColor: Colors.white,
+      menuPopupListTileIconColor: Colors.red,
       menuPopupListTileTextColor: Colors.white,
     ),
   };

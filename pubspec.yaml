@@ -31,6 +31,7 @@ dependencies:
   font_awesome_flutter:
   dart_dice_parser:
   petitparser:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
