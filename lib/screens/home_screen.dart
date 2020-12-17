@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
       drawer: MyDrawer(),
       backgroundColor: theme.listViewBackgroundColor,
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
         child: DiceCollectionListView(),
       ),
       floatingActionButton: AddNewDiceCollectionFAB(),

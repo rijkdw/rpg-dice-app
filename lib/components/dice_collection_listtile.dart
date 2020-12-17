@@ -16,7 +16,6 @@ class DiceCollectionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
 
     void onTap() {
@@ -48,14 +47,16 @@ class DiceCollectionListTile extends StatelessWidget {
 
     Widget leadingIcon = FaIcon(
       FontAwesomeIcons.diceD20,
-      // size: 20,
+      size: 36,
       color: theme.listTileIconColor,
     );
 
     // if no name
     if (this._diceCollection.name == null) {
       return ListTile(
-        leading: leadingIcon,
+        leading: Center(
+          child: leadingIcon,
+        ),
         title: Text(this._diceCollection.expression, style: titleTextStyle),
         onTap: onTap,
         onLongPress: onLongPress,

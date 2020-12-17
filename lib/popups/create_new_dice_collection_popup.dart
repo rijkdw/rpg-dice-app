@@ -10,9 +10,10 @@ class CreateNewDiceCollectionPopup extends StatelessWidget {
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
 
     return Dialog(
-      backgroundColor: theme.newPopupBackgroundColor,
+      elevation: 0,
+      backgroundColor: theme.newFormBackgroundColor,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: AddNewDiceCollectionForm(),
       ),
     );

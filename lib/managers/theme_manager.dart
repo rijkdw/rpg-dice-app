@@ -39,7 +39,9 @@ class ThemeManager extends ChangeNotifier {
       menuPopupBackgroundColor: Colors.white,
       menuPopupListTileDividerColor: ColorPalette.medGray,
       // new collection popup
-      newPopupBackgroundColor: Colors.white,
+      newFormBackgroundColor: Colors.white,
+      newFormHintTextColor: ColorPalette.lightGray,
+      newFormFieldTextColor: Colors.black,
     ),
     ThemeSelection.DARK: MyAppTheme(
       // drawer
@@ -71,7 +73,9 @@ class ThemeManager extends ChangeNotifier {
       menuPopupListTileIconColor: Colors.red,
       menuPopupListTileTextColor: Colors.white,
       // new collection popup
-      newPopupBackgroundColor: ColorPalette.medGray,
+      newFormBackgroundColor: ColorPalette.medGray,
+      newFormFieldTextColor: Colors.white,
+      newFormHintTextColor: ColorPalette.white180,
     ),
   };
 
@@ -81,7 +85,7 @@ class ThemeManager extends ChangeNotifier {
   // CONSTRUCTOR
 
   ThemeManager() {
-    this._currentThemeSelection = ThemeSelection.DARK;
+    this._currentThemeSelection = ThemeSelection.LIGHT;
     // TODO make this a saved setting via SharedPreferences or something
   }
 

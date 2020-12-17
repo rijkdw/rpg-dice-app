@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
@@ -20,16 +21,26 @@ class DiceCollectionMenuPopup extends StatelessWidget {
     Widget editMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.wrench,
       text: "Edit",
-      onTap: () {},
+      onTap: () {
+        // close this popup
+        Navigator.of(context).pop();
+        // open the other dialog
+      },
     );
 
     Widget deleteMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.trash,
       text: "Delete",
-      onTap: () {},
+      onTap: () {
+        // delete
+        Provider.of<CollectionManager>(context, listen: false).deleteCollection(this._diceCollection.id);
+        // close this popup
+        Navigator.of(context).pop();
+      },
     );
 
     return Dialog(
+      elevation: 0,
       backgroundColor: theme.menuPopupBackgroundColor,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

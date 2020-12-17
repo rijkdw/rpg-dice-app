@@ -36,8 +36,10 @@ class MyAppTheme {
   Color menuPopupListTileTextColor;
   Color menuPopupListTileDividerColor;
 
-  // new dice collection popup;
-  Color newPopupBackgroundColor;
+  // new dice collection form;
+  Color newFormBackgroundColor;
+  Color newFormHintTextColor;
+  Color newFormFieldTextColor;
 
   // CONSTRUCTOR
   MyAppTheme({
@@ -70,7 +72,9 @@ class MyAppTheme {
     this.menuPopupListTileIconColor,
     this.menuPopupListTileTextColor,
     // new dice collection popup
-    this.newPopupBackgroundColor,
+    this.newFormBackgroundColor,
+    this.newFormHintTextColor,
+    this.newFormFieldTextColor,
   });
 
 // CONSTRUCTOR
