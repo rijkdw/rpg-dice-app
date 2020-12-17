@@ -7,10 +7,10 @@ class DiceCollection {
   int _id;
 
   // CONSTRUCTORS
-  DiceCollection({String name, String dice, int id}) {
+  DiceCollection({String name, String expression, int id}) {
     this._name = name;
-    this._expression = dice;
-    this._id = id;
+    this._expression = expression;
+    this._id = id ?? 0;
   }
 
   // FUNCTIONS
@@ -24,4 +24,22 @@ class DiceCollection {
   // SETTERS
   set name(String newName) => this._name = newName;
   set expression(String newDice) => this._expression = newDice;
+  set id(int newID) => this._id = newID;
+
+  // JSON
+  factory DiceCollection.fromJson(Map<String, dynamic> jsonMap) {
+    return DiceCollection(
+      name: jsonMap["name"],
+      expression: jsonMap["expression"],
+      id: jsonMap["id"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": this._name,
+      "expression": this._expression,
+      "id": this._id,
+    };
+  }
 }

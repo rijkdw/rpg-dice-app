@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CollectionManager extends ChangeNotifier {
   // ATTRIBUTES
@@ -9,33 +12,76 @@ class CollectionManager extends ChangeNotifier {
   CollectionManager() {
     print("Constructing a CollectionManager");
     this._loadFromLocal();
-    this.notifyListeners();
     print("Finished constructing a CollectionManager");
   }
 
+  // FUNCTIONS
+
+  int getNewID() {
+    /**
+     * Get the lowest unused ID.
+     */
+    List<int> allCurrentIDs = this._diceCollectionsMap.keys.toList();
+    int targetID = 1;
+    while (true) {
+      // if the ID is unreserved, return it
+      if (!allCurrentIDs.contains(targetID)) return targetID;
+      // else add one and look again
+      targetID++;
+    }
+  }
+
+  void addToCollections(DiceCollection diceCollection) {
+    // make sure the ID is not used
+    if (_diceCollectionsMap.containsKey(diceCollection.id)) diceCollection.id = getNewID();
+    this._diceCollectionsMap[diceCollection.id] = diceCollection;
+    // commit to storage
+    _storeInLocal();
+    // reset views
+    notifyListeners();
+  }
+
+  void editCollection(DiceCollection diceCollection) {
+    this._diceCollectionsMap[diceCollection.id] = diceCollection;
+    // commit to storage
+    _storeInLocal();
+    // reset views
+    notifyListeners();
+  }
+
+  void deleteCollection(int id) {
+    this._diceCollectionsMap.remove(id);
+    // commit to storage
+    _storeInLocal();
+    // reset views
+    notifyListeners();
+  }
+
   // STORAGE
+
+  final String _keyCollectionStorage = "dice_collections";
+
   Future _loadFromLocal() async {
-    await Future.delayed(Duration(seconds: 1));
-    this._diceCollectionsMap = {
-      1: DiceCollection(id: 1, dice: "1d20"),
-      2: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      3: DiceCollection(id: 1, dice: "1d20"),
-      4: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      5: DiceCollection(id: 1, dice: "1d20"),
-      6: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      7: DiceCollection(id: 1, dice: "1d20"),
-      8: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      9: DiceCollection(id: 1, dice: "1d20"),
-      10: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      11: DiceCollection(id: 1, dice: "1d20"),
-      12: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-      13: DiceCollection(id: 1, dice: "1d20"),
-      14: DiceCollection(id: 2, name: "Fireball damage", dice: "8d6"),
-    };
+    print("CollectionManager._loadFromLocal() is starting.");
+    // fetch list of maps from local storage
+    var prefs = await SharedPreferences.getInstance();
+    List<dynamic> diceCollectionMapList = json.decode(prefs.getString(_keyCollectionStorage) ?? '[]');
+
+    // for each map, make a DiceCollection object and add it with its id to the Manager's map
+    diceCollectionMapList.forEach((map) {
+      DiceCollection diceCollection = DiceCollection.fromJson(map);
+      this._diceCollectionsMap[diceCollection.id] = diceCollection;
+    });
+    print("CollectionManager._loadFromLocal() has finished.");
     this.notifyListeners();
   }
 
-  void _storeInLocal() {}
+  void _storeInLocal() async {
+    print("CollectionManager._storeInLocal() is starting.");
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString(_keyCollectionStorage, json.encode(this.diceCollections.map((dc) => dc.toJson())));
+    print("CollectionManager._storeInLocal() has finished.");
+  }
 
   // GETTERS
   List<DiceCollection> get diceCollections => this._diceCollectionsMap.values.toList();
