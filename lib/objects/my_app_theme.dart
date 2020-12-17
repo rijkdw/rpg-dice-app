@@ -5,6 +5,7 @@ class MyAppTheme {
   // drawer
   Color drawerHeaderColor;
   Color drawerHeaderTextColor;
+  Color drawerHeaderIconColor;
   Color drawerBodyColor;
   Color drawerBodyTextColor;
   Color drawerBodyIconColor;
@@ -35,11 +36,15 @@ class MyAppTheme {
   Color menuPopupListTileTextColor;
   Color menuPopupListTileDividerColor;
 
+  // new dice collection popup;
+  Color newPopupBackgroundColor;
+
   // CONSTRUCTOR
   MyAppTheme({
     // drawer
     this.drawerHeaderColor,
     this.drawerHeaderTextColor,
+    this.drawerHeaderIconColor,
     this.drawerBodyColor,
     this.drawerBodyTextColor,
     this.drawerBodyIconColor,
@@ -64,6 +69,8 @@ class MyAppTheme {
     this.menuPopupListTileDividerColor,
     this.menuPopupListTileIconColor,
     this.menuPopupListTileTextColor,
+    // new dice collection popup
+    this.newPopupBackgroundColor,
   });
 
 // CONSTRUCTOR

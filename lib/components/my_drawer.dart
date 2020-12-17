@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/menu_list_tile.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/objects/my_app_theme.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
+
     // widgets
     Widget drawerHeader = DrawerHeader(
       decoration: BoxDecoration(
-        color: Provider.of<ThemeManager>(context).theme.drawerHeaderColor,
+        color: theme.drawerHeaderColor,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(width: 5),
+          FaIcon(
+            FontAwesomeIcons.diceD20,
+            color: theme.drawerHeaderIconColor,
+            size: 50,
+          ),
+          SizedBox(width: 25),
+          Text(
+            "RPG Dice",
+            style: TextStyle(
+              letterSpacing: 1.5,
+              color: theme.drawerHeaderTextColor,
+              fontSize: 30,
+            ),
+          ),
+        ],
       ),
     );
 
@@ -36,7 +59,7 @@ class MyDrawer extends StatelessWidget {
       child: Container(
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Provider.of<ThemeManager>(context).theme.drawerBodyColor,
+          color: theme.drawerBodyColor,
         ),
         child: Column(
           // mainAxisSize: MainAxisSize.min,

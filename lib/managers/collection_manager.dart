@@ -79,7 +79,7 @@ class CollectionManager extends ChangeNotifier {
   void _storeInLocal() async {
     print("CollectionManager._storeInLocal() is starting.");
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString(_keyCollectionStorage, json.encode(this.diceCollections.map((dc) => dc.toJson())));
+    prefs.setString(_keyCollectionStorage, json.encode(this.diceCollections.map((dc) => dc.toJson()).toList()));
     print("CollectionManager._storeInLocal() has finished.");
   }
 

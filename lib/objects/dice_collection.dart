@@ -10,7 +10,7 @@ class DiceCollection {
   DiceCollection({String name, String expression, int id}) {
     this._name = name;
     this._expression = expression;
-    this._id = id ?? 0;
+    this._id = id ?? 1;
   }
 
   // FUNCTIONS

@@ -13,6 +13,7 @@ class ThemeManager extends ChangeNotifier {
       // drawer
       drawerHeaderColor: Colors.red,
       drawerHeaderTextColor: Colors.white,
+      drawerHeaderIconColor: Colors.white,
       drawerBodyColor: Colors.white,
       drawerBodyTextColor: Colors.black,
       drawerBodyIconColor: Colors.red,
@@ -37,11 +38,14 @@ class ThemeManager extends ChangeNotifier {
       menuPopupListTileIconColor: Colors.red,
       menuPopupBackgroundColor: Colors.white,
       menuPopupListTileDividerColor: ColorPalette.medGray,
+      // new collection popup
+      newPopupBackgroundColor: Colors.white,
     ),
     ThemeSelection.DARK: MyAppTheme(
       // drawer
       drawerHeaderColor: ColorPalette.medGray,
       drawerHeaderTextColor: Colors.white,
+      drawerHeaderIconColor: Colors.red,
       drawerBodyColor: ColorPalette.darkGray,
       drawerBodyTextColor: Colors.white,
       drawerBodyIconColor: Colors.red,
@@ -66,6 +70,8 @@ class ThemeManager extends ChangeNotifier {
       menuPopupListTileDividerColor: ColorPalette.white180,
       menuPopupListTileIconColor: Colors.red,
       menuPopupListTileTextColor: Colors.white,
+      // new collection popup
+      newPopupBackgroundColor: ColorPalette.medGray,
     ),
   };
 
