@@ -32,6 +32,7 @@ dependencies:
   dart_dice_parser:
   petitparser:
   shared_preferences:
+  fl_chart:
 
 dev_dependencies:
   flutter_test:

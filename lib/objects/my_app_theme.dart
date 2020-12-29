@@ -25,10 +25,11 @@ class MyAppTheme {
 
   // dice roller popup
   Color rollerPopupBackgroundColor;
-  Color rollerPopupNameAndExpressionColor;
-  Color rollerPopupHistoryLabelColor;
-  Color rollerPopupTotalColor;
-  Color rollerPopupHistoryResultColor;
+  Color rollerNameAndExpressionColor;
+  Color rollerHistoryLabelColor;
+  Color rollerDiscardedColor;
+  Color rollerTotalColor;
+  Color rollerHistoryResultColor;
 
   // menu popup
   Color menuPopupBackgroundColor;
@@ -65,10 +66,11 @@ class MyAppTheme {
     this.listTileIconColor,
     // dice roller
     this.rollerPopupBackgroundColor,
-    this.rollerPopupNameAndExpressionColor,
-    this.rollerPopupHistoryLabelColor,
-    this.rollerPopupHistoryResultColor,
-    this.rollerPopupTotalColor,
+    this.rollerNameAndExpressionColor,
+    this.rollerHistoryLabelColor,
+    this.rollerHistoryResultColor,
+    this.rollerTotalColor,
+    this.rollerDiscardedColor,
     // menu popup
     this.menuPopupBackgroundColor,
     this.menuPopupListTileDividerColor,

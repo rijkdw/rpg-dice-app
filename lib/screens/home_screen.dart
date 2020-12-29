@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         title: Text(
           "RPG Dice",

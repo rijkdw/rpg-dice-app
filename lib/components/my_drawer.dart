@@ -3,14 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
+import 'package:rpg_dice/screens/balance_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
+    // the app theme
+    var theme = Provider.of<ThemeManager>(context).theme;
 
     // widgets
-    Widget drawerHeader = DrawerHeader(
+    var drawerHeader = DrawerHeader(
       decoration: BoxDecoration(
         color: theme.drawerHeaderColor,
       ),
@@ -36,19 +38,30 @@ class MyDrawer extends StatelessWidget {
       ),
     );
 
-    Widget settingsMenuItem = _MenuListTile(
+    var settingsMenuItem = _MenuListTile(
       text: "Settings",
       iconData: Icons.settings,
       onTap: () {},
     );
 
-    Widget donateMenuItem = _MenuListTile(
+    var balanceMenuItem = _MenuListTile(
+      text: "Balance",
+      iconData: Icons.zoom_in,
+      onTap: () {
+        // Navigator.of(context).pop(); // close the drawer
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BalanceScreen(),
+        ));
+      },
+    );
+
+    var donateMenuItem = _MenuListTile(
       text: "Donate",
       iconData: Icons.monetization_on,
       onTap: () {},
     );
 
-    Widget darkModeMenuItem = _MenuListTile(
+    var darkModeMenuItem = _MenuListTile(
       text: "${Provider.of<ThemeManager>(context).currentThemeAsString} mode",
       iconData: Icons.lightbulb,
       onTap: () => Provider.of<ThemeManager>(context, listen: false).swapSelection(),
@@ -65,6 +78,7 @@ class MyDrawer extends StatelessWidget {
           children: [
             drawerHeader,
             settingsMenuItem,
+            balanceMenuItem,
             donateMenuItem,
             darkModeMenuItem,
           ],

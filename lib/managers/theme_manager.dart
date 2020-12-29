@@ -29,10 +29,11 @@ class ThemeManager extends ChangeNotifier {
       listViewScrollBarColor: ColorPalette.white180,
       // dice roller popup
       rollerPopupBackgroundColor: Colors.white,
-      rollerPopupNameAndExpressionColor: ColorPalette.darkGray,
-      rollerPopupHistoryResultColor: Colors.black,
-      rollerPopupTotalColor: Colors.black,
-      rollerPopupHistoryLabelColor: ColorPalette.darkGray,
+      rollerNameAndExpressionColor: ColorPalette.darkGray,
+      rollerHistoryResultColor: Colors.black,
+      rollerTotalColor: Colors.black,
+      rollerHistoryLabelColor: ColorPalette.darkGray,
+      rollerDiscardedColor: ColorPalette.gray160,
       // menu popup
       menuPopupListTileTextColor: Colors.black,
       menuPopupListTileIconColor: Colors.red,
@@ -66,10 +67,11 @@ class ThemeManager extends ChangeNotifier {
       listViewScrollBarColor: ColorPalette.lightGray,
       // dice roller popup
       rollerPopupBackgroundColor: ColorPalette.medGray,
-      rollerPopupNameAndExpressionColor: ColorPalette.white225,
-      rollerPopupHistoryLabelColor: ColorPalette.white180,
-      rollerPopupTotalColor: Colors.white,
-      rollerPopupHistoryResultColor: ColorPalette.white225,
+      rollerNameAndExpressionColor: ColorPalette.white225,
+      rollerHistoryLabelColor: ColorPalette.white180,
+      rollerTotalColor: Colors.white,
+      rollerHistoryResultColor: ColorPalette.white225,
+      rollerDiscardedColor: ColorPalette.medGray,
       // menu popup
       menuPopupBackgroundColor: ColorPalette.medGray,
       menuPopupListTileDividerColor: ColorPalette.white180,

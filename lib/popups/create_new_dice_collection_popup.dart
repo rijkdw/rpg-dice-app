@@ -13,7 +13,7 @@ class CreateNewDiceCollectionPopup extends StatelessWidget {
       elevation: 0,
       backgroundColor: theme.newFormBackgroundColor,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         child: AddNewDiceCollectionForm(),
       ),
     );

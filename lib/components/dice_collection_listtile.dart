@@ -8,6 +8,7 @@ import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/screens/dice_roller_screen.dart';
 
+// ignore: must_be_immutable
 class DiceCollectionListTile extends StatelessWidget {
   DiceCollection _diceCollection;
 
