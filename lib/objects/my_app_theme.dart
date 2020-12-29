@@ -40,6 +40,9 @@ class MyAppTheme {
   Color newFormBackgroundColor;
   Color newFormHintTextColor;
   Color newFormFieldTextColor;
+  Color newFormFieldHeadingColor;
+  Color newFormFieldButtonColor;
+  Color newFormFieldButtonTextColor;
 
   // CONSTRUCTOR
   MyAppTheme({
@@ -75,6 +78,9 @@ class MyAppTheme {
     this.newFormBackgroundColor,
     this.newFormHintTextColor,
     this.newFormFieldTextColor,
+    this.newFormFieldHeadingColor,
+    this.newFormFieldButtonColor,
+    this.newFormFieldButtonTextColor,
   });
 
 // CONSTRUCTOR

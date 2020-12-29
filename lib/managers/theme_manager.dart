@@ -42,6 +42,9 @@ class ThemeManager extends ChangeNotifier {
       newFormBackgroundColor: Colors.white,
       newFormHintTextColor: ColorPalette.lightGray,
       newFormFieldTextColor: Colors.black,
+      newFormFieldHeadingColor: Colors.black,
+      newFormFieldButtonColor: Colors.red,
+      newFormFieldButtonTextColor: Colors.white,
     ),
     ThemeSelection.DARK: MyAppTheme(
       // drawer
@@ -76,6 +79,9 @@ class ThemeManager extends ChangeNotifier {
       newFormBackgroundColor: ColorPalette.medGray,
       newFormFieldTextColor: Colors.white,
       newFormHintTextColor: ColorPalette.white180,
+      newFormFieldButtonColor: Colors.red,
+      newFormFieldHeadingColor: Colors.white,
+      newFormFieldButtonTextColor: Colors.white,
     ),
   };
 

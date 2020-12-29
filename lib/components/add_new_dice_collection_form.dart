@@ -23,19 +23,25 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
     CollectionManager collectionManager = Provider.of<CollectionManager>(context, listen: false);
 
-    InputDecoration inputDecoration = InputDecoration(
+    var inputDecoration = InputDecoration(
       hintText: "HINT TEXT",
       hintStyle: TextStyle(
         color: theme.newFormHintTextColor,
       ),
     );
 
-    TextStyle headingTextStyle = TextStyle(
+    var headingTextStyle = TextStyle(
       fontSize: 30,
+      color: theme.newFormFieldHeadingColor,
     );
 
-    TextStyle formTextStyle = TextStyle(
+    var formTextStyle = TextStyle(
       color: theme.newFormFieldTextColor,
+    );
+
+    var buttonTextStyle = TextStyle(
+      color: theme.newFormFieldButtonTextColor,
+      fontSize: 16,
     );
 
     return Form(
@@ -78,8 +84,17 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
           ),
           SizedBox(height: 30),
           RaisedButton(
-            child: Text("ADD"),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Text(
+                "ADD",
+                style: buttonTextStyle,
+              ),
+            ),
             elevation: 0,
+            color: theme.newFormFieldButtonColor,
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 // if valid contents, accept
