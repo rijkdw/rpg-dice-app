@@ -1,9 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/dice_engine/state.dart' as state;
+import 'package:rpg_dice/utils.dart';
 
 class BalanceScreen extends StatefulWidget {
   @override
@@ -13,6 +17,10 @@ class BalanceScreen extends StatefulWidget {
 class _BalanceScreenState extends State<BalanceScreen> {
   var face2countMap = <int, int>{};
   var _diceSize = 6;
+  var _count = 10000;
+  var _progress = 0;
+
+  var _testIsRunning = false;
 
   @override
   void initState() {
@@ -28,18 +36,35 @@ class _BalanceScreenState extends State<BalanceScreen> {
     }
   }
 
-  void startBalanceCheck({int count = 10000}) async {
+  void startBalanceCheck() async {
     setState(() {
       clearMap();
+      _testIsRunning = true;
     });
-    for (var i = 0; i < count; i++) {
-      await Future.delayed(Duration(microseconds: 100));
-      var expression = '1d$_diceSize';
-      var value = Roller.roll(expression).total;
+    for (var i = 0; i < _count && _testIsRunning; i++) {
+      await Future.delayed(Duration(microseconds: 50));
+      // var expression = '1d$_diceSize';
+      // var value = Roller.roll(expression).total;
+      var value = Die.roll(_diceSize).value;
+      state.numRollsMade = 0;
       setState(() {
+        _progress = i;
         face2countMap[value]++;
       });
     }
+    setState(() {
+      _testIsRunning = false;
+    });
+  }
+
+  void stopBalanceCheck() async {
+    setState(() {
+      _testIsRunning = false;
+    });
+    await Future.delayed(Duration(microseconds: 100));
+    setState(() {
+      clearMap();
+    });
   }
 
   @override
@@ -51,21 +76,21 @@ class _BalanceScreenState extends State<BalanceScreen> {
       title: Text(
         'Balance check',
       ),
-      actions: [
-        FlatButton.icon(
-          onPressed: () {},
-          icon: Icon(
-            Icons.help,
-            color: theme.appbarTextColor,
-          ),
-          label: Text(
-            'Help',
-            style: TextStyle(
-              color: theme.appbarTextColor,
-            ),
-          ),
-        )
-      ],
+      // actions: [
+      //   FlatButton.icon(
+      //     onPressed: () {},
+      //     icon: Icon(
+      //       Icons.help,
+      //       color: theme.appbarTextColor,
+      //     ),
+      //     label: Text(
+      //       'Help',
+      //       style: TextStyle(
+      //         color: theme.appbarTextColor,
+      //       ),
+      //     ),
+      //   )
+      // ],
     );
 
     var countViewer = _CountViewer(face2countMap);
@@ -78,11 +103,33 @@ class _BalanceScreenState extends State<BalanceScreen> {
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Balance is important!'),
-            FlatButton(
-              child: Text('Test balance'),
-              onPressed: () => startBalanceCheck(),
+            SizedBox(height: 15),
+            Text(
+              'Dice balance is important!\nEvaluate the app\'s balance when\nrolling a d$_diceSize ${demarcateThousands(_count)} times.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 15),
+            RaisedButton(
+              elevation: 0,
+              child: Container(
+                width: 100,
+                alignment: Alignment.center,
+                child: Text(
+                  _testIsRunning ? '$_progress' : 'Start test',
+                  style: TextStyle(color: theme.newFormFieldButtonTextColor),
+                ),
+              ),
+              color: theme.newFormFieldButtonColor,
+              onPressed: () {
+                if (_testIsRunning) {
+                  stopBalanceCheck();
+                } else {
+                  startBalanceCheck();
+                }
+              },
+            ),
+            SizedBox(height: 15),
             countViewer,
           ],
         ),
@@ -102,9 +149,13 @@ class _CountViewer extends StatelessWidget {
       var groups = <BarChartGroupData>[];
       for (var key in map.keys) {
         groups.add(BarChartGroupData(
-          x: map[key],
+          x: key,
           barRods: [
-            BarChartRodData(y: map[key].toDouble(), colors: [Colors.red]),
+            BarChartRodData(
+              y: map[key].toDouble(),
+              colors: [Color.fromRGBO(180, 0, 0, 1), Colors.red],
+              width: 12,
+            ),
           ],
           showingTooltipIndicators: [0],
         ));
@@ -113,26 +164,23 @@ class _CountViewer extends StatelessWidget {
     }
 
     return Card(
+      elevation: 0,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.fromLTRB(4, 16, 4, 8),
+        width: double.infinity,
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.spaceAround,
-            maxY: maxInList(map.values.toList()).toDouble() * 1.3,
+            maxY: maxInList(map.values.toList()).toDouble() + 100,
             barTouchData: BarTouchData(
               enabled: false,
               touchTooltipData: BarTouchTooltipData(
                 tooltipBgColor: Colors.transparent,
                 tooltipPadding: const EdgeInsets.all(0),
-                tooltipBottomMargin: 8,
-                getTooltipItem: (
-                  BarChartGroupData group,
-                  int groupIndex,
-                  BarChartRodData rod,
-                  int rodIndex,
-                ) {
+                tooltipBottomMargin: 0,
+                getTooltipItem: (BarChartGroupData group, int groupIndex, BarChartRodData rod, int rodIndex) {
                   return BarTooltipItem(
-                    rod.y.round().toString(),
+                    rod.y > 0 ? rod.y.round().toString() : '',
                     TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,
