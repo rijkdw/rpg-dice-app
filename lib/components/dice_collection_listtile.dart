@@ -6,6 +6,7 @@ import 'package:rpg_dice/popups/dice_roller_popup.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
+import 'package:rpg_dice/screens/dice_roller_screen.dart';
 
 class DiceCollectionListTile extends StatelessWidget {
   DiceCollection _diceCollection;
@@ -19,12 +20,17 @@ class DiceCollectionListTile extends StatelessWidget {
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
 
     void onTap() {
-      showDialog(
-        context: context,
-        builder: (_) => DiceRollerPopup(
-          diceCollection: this._diceCollection,
-        ),
-      );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return DiceRollerScreen(
+          diceCollection: _diceCollection,
+        );
+      }));
+      // showDialog(
+      //   context: context,
+      //   builder: (_) => DiceRollerPopup(
+      //     diceCollection: this._diceCollection,
+      //   ),
+      // );
     }
 
     void onLongPress() {

@@ -54,13 +54,12 @@ class MyDrawer extends StatelessWidget {
       onTap: () => Provider.of<ThemeManager>(context, listen: false).swapSelection(),
     );
 
-    return Drawer(
-      elevation: 0,
-      child: Container(
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: theme.drawerBodyColor,
-        ),
+    return Theme(
+      data: ThemeData(
+        canvasColor: theme.drawerBodyColor,
+      ),
+      child: Drawer(
+        elevation: 0,
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
