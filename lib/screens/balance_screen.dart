@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/count_viewer.dart';
+import 'package:rpg_dice/components/dice_counter.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
@@ -97,12 +97,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
       // ],
     );
 
-    var countViewer = CountViewer(
-      map: face2countMap,
-      showTooltips: !_testIsRunning,
-    );
-
-    var headingText = 'Dice balance is important!\nEvaluate the app\'s balance when\nrolling a d$_diceSize ${utils.demarcateThousands(_count)} times.';
+    var headingText =
+        'Dice balance is important!\nEvaluate the app\'s balance when\nrolling a d$_diceSize ${utils.demarcateThousands(_count)} times.';
 
     return Scaffold(
       backgroundColor: theme.genericCanvasColor,
@@ -140,8 +136,93 @@ class _BalanceScreenState extends State<BalanceScreen> {
               },
             ),
             SizedBox(height: 15),
-            countViewer,
+            _CountViewer(
+              map: face2countMap,
+              showTooltips: !_testIsRunning,
+              maxY: _count / _diceSize * 1.2,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CountViewer extends StatelessWidget {
+  Map<int, int> map;
+  double maxY;
+  bool showTooltips;
+
+  _CountViewer({this.map, this.maxY, this.showTooltips = true});
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeManager>(context).theme;
+
+    List<BarChartGroupData> _getBarGroups() {
+      var groups = <BarChartGroupData>[];
+      for (var key in map.keys) {
+        groups.add(BarChartGroupData(
+          x: key,
+          barRods: [
+            BarChartRodData(
+              y: map[key].toDouble(),
+              colors: theme.balanceBarColors,
+              width: 12,
+            ),
+          ],
+          showingTooltipIndicators: [0],
+        ));
+      }
+      return groups;
+    }
+
+    String getToolTip(int y) {
+      var count = utils.sumList(map.values.toList());
+      var perc = utils.roundToNDecimals(y / count * 100, 2);
+      return utils.demarcateThousands(y.round()) + '\n$perc%';
+    }
+
+    return Card(
+      color: theme.balanceCardColor,
+      elevation: 0,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(4, 16, 4, 8),
+        width: double.infinity,
+        child: BarChart(
+          BarChartData(
+            alignment: BarChartAlignment.spaceAround,
+            maxY: maxY, //maxInList(map.values.toList()).toDouble() + 100,
+            barTouchData: BarTouchData(
+              enabled: false,
+              touchTooltipData: BarTouchTooltipData(
+                tooltipBgColor: Colors.transparent,
+                tooltipPadding: const EdgeInsets.all(0),
+                tooltipBottomMargin: 0,
+                getTooltipItem: (BarChartGroupData group, int groupIndex, BarChartRodData rod, int rodIndex) {
+                  return BarTooltipItem(
+                    showTooltips ? getToolTip(rod.y.round()) : '',
+                    TextStyle(
+                      color: theme.balanceHeadingColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+            ),
+            titlesData: FlTitlesData(
+              show: true,
+              bottomTitles: SideTitles(
+                showTitles: true,
+                getTextStyles: (value) => TextStyle(color: theme.balanceAxesTextColor),
+                margin: 10,
+                getTitles: (double value) => '${value.toInt()}',
+              ),
+              leftTitles: SideTitles(showTitles: false),
+            ),
+            borderData: FlBorderData(show: false),
+            barGroups: _getBarGroups(),
+          ),
         ),
       ),
     );

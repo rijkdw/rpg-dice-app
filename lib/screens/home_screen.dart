@@ -40,12 +40,12 @@ class HomeScreen extends StatelessWidget {
         ),
         elevation: 0,
         backgroundColor: theme.appbarColor,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.bug_report),
-            onPressed: debugFunction,
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.bug_report),
+        //     onPressed: debugFunction,
+        //   ),
+        // ],
       ),
       drawer: MyDrawer(),
       backgroundColor: theme.listViewBackgroundColor,

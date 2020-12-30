@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rpg_dice/components/dice_counter.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
@@ -58,16 +59,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       fontSize: 64,
     );
 
-    var historyLabelStyle = TextStyle(
-      color: theme.rollerHistoryLabelColor,
-      fontSize: 16,
-    );
-
-    var historyResultStyle = TextStyle(
-      color: theme.rollerHistoryResultColor,
-      fontSize: 36,
-    );
-
     Widget die2widget(Die die) {
       var text = '${die.value}';
       if (die.exploded) text += '!';
@@ -108,107 +99,144 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // the header that can be tapped to reroll
-        InkWell(
-          onTap: roll,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // the DiceCollection's name and dice
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(this.widget._diceCollection.name ?? "Unnamed hand", style: nameAndExpressionStyle),
-                    Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
-                  ],
-                ),
-                SizedBox(height: 30),
-
-                // the current result
-                Text("${result.total}", style: currentTotalStyle),
-                SizedBox(height: 12),
-
-                // the constituent rolls
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: intersperse(
-                    result.die.map(die2widget).toList(),
-                    () => SizedBox(width: 10),
-                  ),
-                ),
-                SizedBox(height: 30),
-              ],
-            ),
-          ),
-        ),
-
-        // TODO breakdown
-
-        // the history
-        Container(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // the header that can be tapped to reroll
+          InkWell(
+            onTap: roll,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("History", style: historyLabelStyle),
-                  InkWell(
-                    child: Icon(
-                      Icons.delete,
-                      color: theme.rollerHistoryLabelColor,
-                    ),
-                    onTap: () {
-                      Provider.of<HistoryManager>(context, listen: false).clearHistory(widget._diceCollection.id);
-                    },
-                    splashColor: Colors.transparent,
+                  // the DiceCollection's name and dice
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(this.widget._diceCollection.name ?? "Unnamed hand", style: nameAndExpressionStyle),
+                      Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
+                    ],
                   ),
+                  SizedBox(height: 30),
+
+                  // the current result
+                  Text("${result.total}", style: currentTotalStyle),
+                  SizedBox(height: 12),
+
+                  // the constituent rolls
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: intersperse(
+                      result.die.map(die2widget).toList(),
+                      () => SizedBox(width: 10),
+                    ),
+                  ),
+                  SizedBox(height: 30),
                 ],
               ),
-              SizedBox(height: 4),
-              ScrollConfiguration(
-                behavior: NoGlowScrollBehavior(),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Consumer<HistoryManager>(
-                    builder: (context, historyManager, child) {
-                      // get previous results
-                      List<int> previousResults = Provider.of<HistoryManager>(context)
-                          .getResultsOfID(widget._diceCollection.id)
-                          .map((result) => result.total)
-                          .toList();
-                      // make into Text widgets
-                      List<Widget> previousResultWidgets = previousResults.map((result) {
-                        return Text(
-                          "$result",
-                          style: historyResultStyle,
-                        );
-                      }).toList();
-                      // put space (SizedBoxes) between
-                      List<Widget> previousResultsSpaced = intersperse(
-                        previousResultWidgets,
-                        () => SizedBox(width: 25),
-                      );
-                      return Row(
-                        children: previousResultsSpaced,
-                      );
-                    },
-                  ),
+            ),
+          ),
+
+          // TODO breakdown
+
+          // the history
+          _HistoryWidget(widget._diceCollection),
+
+          // the dice counter
+          DiceCounter(widget._diceCollection.expression, 10000),
+        ],
+      ),
+    );
+  }
+}
+
+// =================================================================================================
+// HISTORY WIDGET
+// =================================================================================================
+
+class _HistoryWidget extends StatelessWidget {
+
+  // attributes
+  DiceCollection diceCollection;
+
+  // constructor
+  _HistoryWidget(this.diceCollection);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var theme = Provider.of<ThemeManager>(context).theme;
+
+    var historyLabelStyle = TextStyle(
+      color: theme.rollerHistoryLabelColor,
+      fontSize: 16,
+    );
+
+    var historyResultStyle = TextStyle(
+      color: theme.rollerHistoryResultColor,
+      fontSize: 36,
+    );
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("History", style: historyLabelStyle),
+              InkWell(
+                child: Icon(
+                  Icons.delete,
+                  color: theme.rollerHistoryLabelColor,
                 ),
+                onTap: () {
+                  Provider.of<HistoryManager>(context, listen: false).clearHistory(diceCollection.id);
+                },
+                splashColor: Colors.transparent,
               ),
             ],
           ),
-        ),
-      ],
+          SizedBox(height: 4),
+          ScrollConfiguration(
+            behavior: NoGlowScrollBehavior(),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Consumer<HistoryManager>(
+                builder: (context, historyManager, child) {
+                  // get previous results
+                  List<int> previousResults = Provider.of<HistoryManager>(context)
+                      .getResultsOfID(diceCollection.id)
+                      .map((result) => result.total)
+                      .toList();
+                  // make into Text widgets
+                  List<Widget> previousResultWidgets = previousResults.map((result) {
+                    return Text(
+                      "$result",
+                      style: historyResultStyle,
+                    );
+                  }).toList();
+                  // put space (SizedBoxes) between
+                  List<Widget> previousResultsSpaced = intersperse(
+                    previousResultWidgets,
+                        () => SizedBox(width: 25),
+                  );
+                  return Row(
+                    children: previousResultsSpaced,
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
 }
