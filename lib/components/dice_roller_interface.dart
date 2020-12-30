@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_counter.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
@@ -30,16 +31,18 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
   // ATTRIBUTES
   Result result;
   var historyScrollController = ScrollController();
+  bool displayingAResult = false;
 
   @override
   void initState() {
-    roll();
+    // roll();
     super.initState();
   }
 
   void roll() {
     setState(() {
       result = Roller.roll(widget._diceCollection.expression);
+      displayingAResult = true;
       Provider.of<HistoryManager>(context, listen: false).addToHistory(widget._diceCollection.id, result);
     });
   }
@@ -59,11 +62,12 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       fontSize: 64,
     );
 
-    Widget die2widget(Die die) {
+    Widget die2widget(Die die, {TextStyle baseTextStyle}) {
+      if (baseTextStyle == null) {
+        baseTextStyle = TextStyle(fontSize: 22, color: theme.rollerTotalColor);
+      }
       var text = '${die.value}';
       if (die.exploded) text += '!';
-
-      var baseTextStyle = TextStyle(fontSize: 22, color: theme.rollerTotalColor);
       var textStyle = baseTextStyle.copyWith();
       // bold a critical or a critical fail
       if (die.isCrit || die.isFail) textStyle = textStyle.copyWith(fontWeight: FontWeight.bold);
@@ -117,22 +121,32 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(this.widget._diceCollection.name ?? "Unnamed hand", style: nameAndExpressionStyle),
+                      Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
                       Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
                     ],
                   ),
                   SizedBox(height: 30),
 
                   // the current result
-                  Text("${result.total}", style: currentTotalStyle),
+                  SizedBox(
+                    height: 80,
+                    child: displayingAResult
+                        ? Text(displayingAResult ? '${result.total}' : '-', style: currentTotalStyle)
+                        : FaIcon(FontAwesomeIcons.diceD20, size: 80),
+                  ),
                   SizedBox(height: 12),
 
                   // the constituent rolls
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: intersperse(
-                      result.die.map(die2widget).toList(),
-                      () => SizedBox(width: 10),
+                  SizedBox(
+                    height: 20,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: displayingAResult
+                          ? intersperse(
+                              result.die.map(die2widget).toList(),
+                              () => SizedBox(width: 10),
+                            )
+                          : [],
                     ),
                   ),
                   SizedBox(height: 30),
@@ -147,7 +161,11 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
           _HistoryWidget(widget._diceCollection),
 
           // the dice counter
-          DiceCounter(widget._diceCollection.expression, 10000),
+          DiceCounter(
+            expression: widget._diceCollection.expression,
+            numRepeats: 10000,
+            title: 'Distribution',
+          ),
         ],
       ),
     );
@@ -159,7 +177,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 // =================================================================================================
 
 class _HistoryWidget extends StatelessWidget {
-
   // attributes
   DiceCollection diceCollection;
 
@@ -168,7 +185,6 @@ class _HistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var theme = Provider.of<ThemeManager>(context).theme;
 
     var historyLabelStyle = TextStyle(
@@ -211,21 +227,24 @@ class _HistoryWidget extends StatelessWidget {
               child: Consumer<HistoryManager>(
                 builder: (context, historyManager, child) {
                   // get previous results
-                  List<int> previousResults = Provider.of<HistoryManager>(context)
+                  List<String> previousResults = Provider.of<HistoryManager>(context)
                       .getResultsOfID(diceCollection.id)
-                      .map((result) => result.total)
+                      .map((result) => '${result.total}')
                       .toList();
+                  if (previousResults.isEmpty) {
+                    previousResults = [''];
+                  }
                   // make into Text widgets
                   List<Widget> previousResultWidgets = previousResults.map((result) {
                     return Text(
-                      "$result",
+                      result,
                       style: historyResultStyle,
                     );
                   }).toList();
                   // put space (SizedBoxes) between
                   List<Widget> previousResultsSpaced = intersperse(
                     previousResultWidgets,
-                        () => SizedBox(width: 25),
+                    () => SizedBox(width: 25),
                   );
                   return Row(
                     children: previousResultsSpaced,
@@ -238,5 +257,4 @@ class _HistoryWidget extends StatelessWidget {
       ),
     );
   }
-
 }

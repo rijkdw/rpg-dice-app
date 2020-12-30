@@ -11,7 +11,6 @@ import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 
 class AddNewDiceCollectionForm extends StatefulWidget {
-
   DiceCollection diceCollection;
 
   AddNewDiceCollectionForm({this.diceCollection});
@@ -41,7 +40,7 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
     CollectionManager collectionManager = Provider.of<CollectionManager>(context, listen: false);
 
     var inputDecoration = InputDecoration(
-      hintText: "HINT TEXT",
+      hintText: 'HINT TEXT',
       hintStyle: TextStyle(
         color: theme.newFormHintTextColor,
       ),
@@ -71,22 +70,25 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // heading
-              Text("New hand", style: headingTextStyle),
+              Text(
+                widget.diceCollection == null ? 'New hand' : 'Edit hand',
+                style: headingTextStyle,
+              ),
               SizedBox(height: 10),
               // the dice collection's name
               TextFormField(
-                decoration: inputDecoration.copyWith(hintText: "Hand name"),
+                decoration: inputDecoration.copyWith(hintText: 'Hand name'),
                 controller: nameController,
                 textCapitalization: TextCapitalization.sentences,
                 style: formTextStyle,
                 validator: (value) {
-                  if (value.isEmpty) return "Name cannot be empty";
+                  if (value.isEmpty) return 'Name cannot be empty';
                   return null;
                 },
               ),
               // the dice collection's expression
               TextFormField(
-                decoration: inputDecoration.copyWith(hintText: "Dice expression"),
+                decoration: inputDecoration.copyWith(hintText: 'Dice expression'),
                 controller: expressionController,
                 style: formTextStyle,
                 validator: (value) {
@@ -110,7 +112,7 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
               width: double.infinity,
               alignment: Alignment.center,
               child: Text(
-                "ADD",
+                widget.diceCollection == null ? 'ADD' : 'EDIT',
                 style: buttonTextStyle,
               ),
             ),
