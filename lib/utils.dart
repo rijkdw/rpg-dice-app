@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 int sumList(List<int> list) {
   int sum = 0;
@@ -6,7 +7,16 @@ int sumList(List<int> list) {
   return sum;
 }
 
+double roundToNDecimals(double value, int n) {
+  if (n < 0) return value;
+  var valueXn = value*pow(10, n);
+  var valueXnRounded = valueXn.round();
+  var valueReturn = valueXnRounded / pow(10, n);
+  return valueReturn;
+}
+
 List<Widget> intersperse(List<Widget> list, Widget Function() function) {
+  if (list.isEmpty) return <Widget>[];
   List<Widget> listToReturn = [];
   for (Widget widget in list) {
     listToReturn.add(widget);

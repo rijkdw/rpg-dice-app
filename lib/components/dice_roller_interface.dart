@@ -24,7 +24,9 @@ class DiceRollerInterface extends StatefulWidget {
 }
 
 class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
+  // ATTRIBUTES
   Result result;
+  var historyScrollController = ScrollController();
 
   @override
   void initState() {
@@ -33,17 +35,15 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
   }
 
   void roll() {
+    Provider.of<HistoryManager>(context, listen: false).addToHistory(widget._diceCollection.id, result);
     setState(() {
       result = Roller.roll(widget._diceCollection.expression);
     });
-    // TODO add to history
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Provider.of<ThemeManager>(context).theme;
-
-    var historyScrollController = ScrollController();
 
     // TextStyles
     var nameAndExpressionStyle = TextStyle(
@@ -63,7 +63,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 
     var historyResultStyle = TextStyle(
       color: theme.rollerHistoryResultColor,
-      fontSize: 28,
+      fontSize: 36,
     );
 
     Widget die2widget(Die die) {
@@ -131,7 +131,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 
                 // the current result
                 Text("${result.total}", style: currentTotalStyle),
-                SizedBox(height: 4),
+                SizedBox(height: 12),
 
                 // the constituent rolls
                 Row(
@@ -147,6 +147,8 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
           ),
         ),
 
+        // TODO breakdown
+
         // the history
         Container(
           padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -154,7 +156,22 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("History", style: historyLabelStyle),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("History", style: historyLabelStyle),
+                  InkWell(
+                    child: Icon(
+                      Icons.delete,
+                      color: theme.rollerHistoryLabelColor,
+                    ),
+                    onTap: () {
+                      Provider.of<HistoryManager>(context, listen: false).clearHistory(widget._diceCollection.id);
+                    },
+                    splashColor: Colors.transparent,
+                  ),
+                ],
+              ),
               SizedBox(height: 4),
               ScrollConfiguration(
                 behavior: NoGlowScrollBehavior(),
@@ -162,23 +179,25 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
                   scrollDirection: Axis.horizontal,
                   child: Consumer<HistoryManager>(
                     builder: (context, historyManager, child) {
-                      List<int> previousResults = List.generate(20, (i) => i + 1);
+                      // get previous results
+                      List<int> previousResults = Provider.of<HistoryManager>(context)
+                          .getResultsOfID(widget._diceCollection.id)
+                          .map((result) => result.total)
+                          .toList();
+                      // make into Text widgets
                       List<Widget> previousResultWidgets = previousResults.map((result) {
-                        return Text("$result", style: historyResultStyle);
+                        return Text(
+                          "$result",
+                          style: historyResultStyle,
+                        );
                       }).toList();
-                      List<Widget> previousResultsSpaced =
-                          intersperse(previousResultWidgets, () => SizedBox(width: 10));
-
-                      return Scrollbar(
-                        isAlwaysShown: true,
-                        controller: historyScrollController,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          controller: historyScrollController,
-                          child: Row(
-                            children: previousResultsSpaced,
-                          ),
-                        ),
+                      // put space (SizedBoxes) between
+                      List<Widget> previousResultsSpaced = intersperse(
+                        previousResultWidgets,
+                        () => SizedBox(width: 25),
+                      );
+                      return Row(
+                        children: previousResultsSpaced,
                       );
                     },
                   ),

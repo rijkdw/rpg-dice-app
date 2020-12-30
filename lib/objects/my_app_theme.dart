@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyAppTheme {
   // ATTRIBUTES
+
+  // generic
+  Color genericCanvasColor;
+  Color genericButtonColor;
+  Color genericButtonTextColor;
+  Color genericTextColor;
+
   // drawer
   Color drawerHeaderColor;
   Color drawerHeaderTextColor;
@@ -45,8 +52,19 @@ class MyAppTheme {
   Color newFormFieldButtonColor;
   Color newFormFieldButtonTextColor;
 
+  // balance checker
+  List<Color> balanceBarColors;
+  Color balanceAxesTextColor;
+  Color balanceHeadingColor;
+  Color balanceCardColor;
+
   // CONSTRUCTOR
   MyAppTheme({
+    // generic
+    this.genericCanvasColor,
+    this.genericButtonColor,
+    this.genericButtonTextColor,
+    this.genericTextColor,
     // drawer
     this.drawerHeaderColor,
     this.drawerHeaderTextColor,
@@ -83,6 +101,11 @@ class MyAppTheme {
     this.newFormFieldHeadingColor,
     this.newFormFieldButtonColor,
     this.newFormFieldButtonTextColor,
+    // balance checker
+    this.balanceAxesTextColor,
+    this.balanceBarColors,
+    this.balanceHeadingColor,
+    this.balanceCardColor,
   });
 
 // CONSTRUCTOR

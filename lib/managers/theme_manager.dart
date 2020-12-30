@@ -3,6 +3,7 @@ import 'package:rpg_dice/enums/theme_selection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/color_palette.dart' as ColorPalette;
 import 'package:rpg_dice/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeManager extends ChangeNotifier {
   // ATTRIBUTES
@@ -10,6 +11,11 @@ class ThemeManager extends ChangeNotifier {
   // the map containing light mode and dark mode's colors
   Map<ThemeSelection, MyAppTheme> _themeMap = {
     ThemeSelection.LIGHT: MyAppTheme(
+      // generic
+      genericCanvasColor: Colors.white,
+      genericButtonTextColor: Colors.white,
+      genericButtonColor: Colors.red,
+      genericTextColor: Colors.black,
       // drawer
       drawerHeaderColor: Colors.red,
       drawerHeaderTextColor: Colors.white,
@@ -46,8 +52,18 @@ class ThemeManager extends ChangeNotifier {
       newFormFieldHeadingColor: Colors.black,
       newFormFieldButtonColor: Colors.red,
       newFormFieldButtonTextColor: Colors.white,
+      // balance
+      balanceHeadingColor: Colors.red,
+      balanceBarColors: [Colors.red],
+      balanceAxesTextColor: Colors.black,
+      balanceCardColor: ColorPalette.gray160,
     ),
     ThemeSelection.DARK: MyAppTheme(
+      // generic
+      genericButtonColor: Colors.red,
+      genericButtonTextColor: Colors.white,
+      genericCanvasColor: ColorPalette.darkGray,
+      genericTextColor: Colors.white,
       // drawer
       drawerHeaderColor: ColorPalette.medGray,
       drawerHeaderTextColor: Colors.white,
@@ -71,7 +87,7 @@ class ThemeManager extends ChangeNotifier {
       rollerHistoryLabelColor: ColorPalette.white180,
       rollerTotalColor: Colors.white,
       rollerHistoryResultColor: ColorPalette.white225,
-      rollerDiscardedColor: ColorPalette.medGray,
+      rollerDiscardedColor: ColorPalette.lightGray,
       // menu popup
       menuPopupBackgroundColor: ColorPalette.medGray,
       menuPopupListTileDividerColor: ColorPalette.white180,
@@ -84,6 +100,11 @@ class ThemeManager extends ChangeNotifier {
       newFormFieldButtonColor: Colors.red,
       newFormFieldHeadingColor: Colors.white,
       newFormFieldButtonTextColor: Colors.white,
+      // balance checker
+      balanceAxesTextColor: Colors.white,
+      balanceBarColors: [Colors.red],
+      balanceHeadingColor: Colors.white,
+      balanceCardColor: ColorPalette.medGray,
     ),
   };
 
@@ -97,6 +118,23 @@ class ThemeManager extends ChangeNotifier {
     // TODO make this a saved setting via SharedPreferences or something
   }
 
+  // STORE / LOAD
+
+  var _storageKey = 'theme_manager';
+
+  void _storeToLocal() async {
+    print('ThemeManager._storeToLocal() is starting.');
+    var prefs = await SharedPreferences.getInstance();
+    print('ThemeManager._storeToLocal() has finished.');
+  }
+
+  void _loadFromLocal() async {
+    print('ThemeManager._loadFromLocal() is starting.');
+    var prefs = await SharedPreferences.getInstance();
+    print('ThemeManager._loadFromLocal() has finished.');
+    notifyListeners();
+  }
+
   // FUNCTIONS
 
   void swapSelection() {
@@ -104,6 +142,7 @@ class ThemeManager extends ChangeNotifier {
       this._currentThemeSelection = ThemeSelection.DARK;
     else
       this._currentThemeSelection = ThemeSelection.LIGHT;
+    _storeToLocal();
     notifyListeners();
   }
 

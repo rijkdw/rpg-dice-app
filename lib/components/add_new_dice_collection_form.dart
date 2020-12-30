@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:rpg_dice/dice_engine/ast/objects/lexer.dart';
+import 'package:rpg_dice/dice_engine/ast/objects/parser.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
@@ -73,8 +75,12 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
                 controller: expressionController,
                 style: formTextStyle,
                 validator: (value) {
-                  if (value.isEmpty) return "Expression cannot be empty";
-                  // TODO check if it can successfully parse as a dice expression
+                  if (value.isEmpty) return 'Expression cannot be empty';
+                  try {
+                    Parser(Lexer(value)).parse();
+                  } catch (e) {
+                    return 'Bad expression';
+                  }
                   return null;
                 },
               ),

@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
-import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/dice_engine/state.dart' as state;
-import 'package:rpg_dice/utils.dart';
+import 'package:rpg_dice/utils.dart' as utils;
 
 class BalanceScreen extends StatefulWidget {
   @override
@@ -39,6 +38,9 @@ class _BalanceScreenState extends State<BalanceScreen> {
   void startBalanceCheck() async {
     setState(() {
       clearMap();
+    });
+    // await Future.delayed(Duration(milliseconds: 500));
+    setState(() {
       _testIsRunning = true;
     });
     for (var i = 0; i < _count && _testIsRunning; i++) {
@@ -72,6 +74,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
     var theme = Provider.of<ThemeManager>(context).theme;
 
     var appbar = AppBar(
+      backgroundColor: theme.appbarColor,
       elevation: 0,
       title: Text(
         'Balance check',
@@ -93,9 +96,15 @@ class _BalanceScreenState extends State<BalanceScreen> {
       // ],
     );
 
-    var countViewer = _CountViewer(face2countMap);
+    var countViewer = _CountViewer(
+      map: face2countMap,
+      showTooltips: !_testIsRunning,
+    );
+
+    var headingText = 'Dice balance is important!\nEvaluate the app\'s balance when\nrolling a d$_diceSize ${utils.demarcateThousands(_count)} times.';
 
     return Scaffold(
+      backgroundColor: theme.genericCanvasColor,
       appBar: appbar,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -105,9 +114,9 @@ class _BalanceScreenState extends State<BalanceScreen> {
           children: [
             SizedBox(height: 15),
             Text(
-              'Dice balance is important!\nEvaluate the app\'s balance when\nrolling a d$_diceSize ${demarcateThousands(_count)} times.',
+              headingText,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: theme.genericTextColor),
             ),
             SizedBox(height: 15),
             RaisedButton(
@@ -116,11 +125,11 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 width: 100,
                 alignment: Alignment.center,
                 child: Text(
-                  _testIsRunning ? '$_progress' : 'Start test',
-                  style: TextStyle(color: theme.newFormFieldButtonTextColor),
+                  _testIsRunning ? utils.demarcateThousands(_progress) : 'Start test',
+                  style: TextStyle(color: theme.genericButtonTextColor),
                 ),
               ),
-              color: theme.newFormFieldButtonColor,
+              color: theme.genericButtonColor,
               onPressed: () {
                 if (_testIsRunning) {
                   stopBalanceCheck();
@@ -140,11 +149,14 @@ class _BalanceScreenState extends State<BalanceScreen> {
 
 class _CountViewer extends StatelessWidget {
   Map<int, int> map;
+  bool showTooltips;
 
-  _CountViewer(this.map);
+  _CountViewer({this.map, this.showTooltips = true});
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeManager>(context).theme;
+
     List<BarChartGroupData> _getBarGroups() {
       var groups = <BarChartGroupData>[];
       for (var key in map.keys) {
@@ -153,7 +165,7 @@ class _CountViewer extends StatelessWidget {
           barRods: [
             BarChartRodData(
               y: map[key].toDouble(),
-              colors: [Color.fromRGBO(180, 0, 0, 1), Colors.red],
+              colors: theme.balanceBarColors,
               width: 12,
             ),
           ],
@@ -163,7 +175,14 @@ class _CountViewer extends StatelessWidget {
       return groups;
     }
 
+    String getToolTip(int y) {
+      var count = utils.sumList(map.values.toList());
+      var perc = utils.roundToNDecimals(y / count * 100, 2);
+      return utils.demarcateThousands(y.round()) + '\n$perc%';
+    }
+
     return Card(
+      color: theme.balanceCardColor,
       elevation: 0,
       child: Container(
         padding: const EdgeInsets.fromLTRB(4, 16, 4, 8),
@@ -171,7 +190,7 @@ class _CountViewer extends StatelessWidget {
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.spaceAround,
-            maxY: maxInList(map.values.toList()).toDouble() + 100,
+            maxY: 2000, //maxInList(map.values.toList()).toDouble() + 100,
             barTouchData: BarTouchData(
               enabled: false,
               touchTooltipData: BarTouchTooltipData(
@@ -180,9 +199,9 @@ class _CountViewer extends StatelessWidget {
                 tooltipBottomMargin: 0,
                 getTooltipItem: (BarChartGroupData group, int groupIndex, BarChartRodData rod, int rodIndex) {
                   return BarTooltipItem(
-                    rod.y > 0 ? rod.y.round().toString() : '',
+                    rod.y > 0 ? getToolTip(rod.y.round()) : '',
                     TextStyle(
-                      color: Colors.red,
+                      color: theme.balanceHeadingColor,
                       fontWeight: FontWeight.bold,
                     ),
                   );
@@ -193,7 +212,7 @@ class _CountViewer extends StatelessWidget {
               show: true,
               bottomTitles: SideTitles(
                 showTitles: true,
-                getTextStyles: (value) => const TextStyle(color: Colors.black),
+                getTextStyles: (value) => TextStyle(color: theme.balanceAxesTextColor),
                 margin: 10,
                 getTitles: (double value) => '${value.toInt()}',
               ),
