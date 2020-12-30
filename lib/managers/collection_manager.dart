@@ -21,7 +21,7 @@ class CollectionManager extends ChangeNotifier {
     /**
      * Get the lowest unused ID.
      */
-    List<int> allCurrentIDs = this._diceCollectionsMap.keys.toList();
+    List<int> allCurrentIDs = _diceCollectionsMap.keys.toList();
     int targetID = 1;
     while (true) {
       // if the ID is unreserved, return it
@@ -33,16 +33,18 @@ class CollectionManager extends ChangeNotifier {
 
   void addToCollections(DiceCollection diceCollection) {
     // make sure the ID is not used
-    if (_diceCollectionsMap.containsKey(diceCollection.id)) diceCollection.id = getNewID();
-    this._diceCollectionsMap[diceCollection.id] = diceCollection;
+    if (_diceCollectionsMap.containsKey(diceCollection.id)) {
+      diceCollection.id = getNewID();
+    }
+    _diceCollectionsMap[diceCollection.id] = diceCollection;
     // commit to storage
     _storeInLocal();
     // reset views
     notifyListeners();
   }
 
-  void editCollection(DiceCollection diceCollection) {
-    this._diceCollectionsMap[diceCollection.id] = diceCollection;
+  void editCollection(int oldID, DiceCollection newDiceCollection) {
+    _diceCollectionsMap[oldID] = newDiceCollection;
     // commit to storage
     _storeInLocal();
     // reset views
@@ -50,10 +52,16 @@ class CollectionManager extends ChangeNotifier {
   }
 
   void deleteCollection(int id) {
+    print('CollectionManager deleting collection with id=$id');
     this._diceCollectionsMap.remove(id);
     // commit to storage
     _storeInLocal();
     // reset views
+    notifyListeners();
+  }
+
+  void deleteAll() {
+    _diceCollectionsMap = {};
     notifyListeners();
   }
 

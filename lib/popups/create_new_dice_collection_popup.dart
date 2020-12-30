@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/add_new_dice_collection_form.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 
 class CreateNewDiceCollectionPopup extends StatelessWidget {
+
+  DiceCollection diceCollection;
+
+  CreateNewDiceCollectionPopup({this.diceCollection});
+
   @override
   Widget build(BuildContext context) {
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
@@ -14,7 +20,9 @@ class CreateNewDiceCollectionPopup extends StatelessWidget {
       backgroundColor: theme.newFormBackgroundColor,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-        child: AddNewDiceCollectionForm(),
+        child: AddNewDiceCollectionForm(
+          diceCollection: diceCollection,
+        ),
       ),
     );
 

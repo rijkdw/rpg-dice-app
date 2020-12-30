@@ -7,8 +7,6 @@ import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
-import 'package:rpg_dice/objects/dice_result.dart';
-import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/utils.dart';
 
 // ignore: must_be_immutable
@@ -23,6 +21,10 @@ class DiceRollerInterface extends StatefulWidget {
   _DiceRollerInterfaceState createState() => _DiceRollerInterfaceState();
 }
 
+// =================================================================================================
+// STATE
+// =================================================================================================
+
 class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
   // ATTRIBUTES
   Result result;
@@ -30,14 +32,14 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 
   @override
   void initState() {
-    result = Roller.roll(widget._diceCollection.expression);
+    roll();
     super.initState();
   }
 
   void roll() {
-    Provider.of<HistoryManager>(context, listen: false).addToHistory(widget._diceCollection.id, result);
     setState(() {
       result = Roller.roll(widget._diceCollection.expression);
+      Provider.of<HistoryManager>(context, listen: false).addToHistory(widget._diceCollection.id, result);
     });
   }
 

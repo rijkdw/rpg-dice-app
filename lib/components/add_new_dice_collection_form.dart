@@ -5,11 +5,17 @@ import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/lexer.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/parser.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
+import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
 
 class AddNewDiceCollectionForm extends StatefulWidget {
+
+  DiceCollection diceCollection;
+
+  AddNewDiceCollectionForm({this.diceCollection});
+
   @override
   _AddNewDiceCollectionFormState createState() => _AddNewDiceCollectionFormState();
 }
@@ -19,6 +25,15 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController expressionController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.diceCollection != null) {
+      nameController.text = widget.diceCollection.name;
+      expressionController.text = widget.diceCollection.expression;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,11 +119,24 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 // if valid contents, accept
-                DiceCollection diceCollection = DiceCollection(
-                  name: nameController.text,
-                  expression: expressionController.text,
-                );
-                collectionManager.addToCollections(diceCollection);
+                // are we creating or editing?
+                if (widget.diceCollection != null) {
+                  // we are editing
+                  DiceCollection diceCollection = DiceCollection(
+                    name: nameController.text,
+                    expression: expressionController.text,
+                    id: widget.diceCollection.id,
+                  );
+                  collectionManager.editCollection(widget.diceCollection.id, diceCollection);
+                  Provider.of<HistoryManager>(context, listen: false).clearHistory(widget.diceCollection.id);
+                } else {
+                  // we are creating
+                  DiceCollection diceCollection = DiceCollection(
+                    name: nameController.text,
+                    expression: expressionController.text,
+                  );
+                  collectionManager.addToCollections(diceCollection);
+                }
                 Navigator.of(context).pop();
               } else {
                 // if invalid contents, reject

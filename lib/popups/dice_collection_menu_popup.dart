@@ -6,6 +6,7 @@ import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
+import 'package:rpg_dice/popups/create_new_dice_collection_popup.dart';
 
 class DiceCollectionMenuPopup extends StatelessWidget {
   DiceCollection _diceCollection;
@@ -25,6 +26,14 @@ class DiceCollectionMenuPopup extends StatelessWidget {
         // close this popup
         Navigator.of(context).pop();
         // open the other dialog
+        showDialog(
+          context: context,
+          builder: (context) {
+            return CreateNewDiceCollectionPopup(
+              diceCollection: _diceCollection,
+            );
+          }
+        );
       },
     );
 

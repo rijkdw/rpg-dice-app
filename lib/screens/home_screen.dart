@@ -14,15 +14,21 @@ class HomeScreen extends StatelessWidget {
     MyAppTheme theme = Provider.of<ThemeManager>(context).theme;
     CollectionManager collectionManager = Provider.of<CollectionManager>(context);
 
-    void debugFunction() async {
-      DiceCollection dummyCollection = DiceCollection(
-        name: "DUMMY",
-        expression: "1d20",
-        id: 10,
-      );
-      collectionManager.addToCollections(dummyCollection);
-      await Future.delayed(Duration(seconds: 3));
-      collectionManager.deleteCollection(10);
+    void debugFunction() {
+      collectionManager.deleteAll();
+      var dummyCollections = [
+        DiceCollection(
+          expression: '1d20',
+          name: 'DiceA',
+          id: 1,
+        ),
+        DiceCollection(
+          expression: '4d6kh3',
+          name: 'stat',
+          id: 2,
+        )
+      ];
+      dummyCollections.forEach((coll) => collectionManager.addToCollections(coll));
     }
 
     return Scaffold(
@@ -34,12 +40,12 @@ class HomeScreen extends StatelessWidget {
         ),
         elevation: 0,
         backgroundColor: theme.appbarColor,
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.bug_report),
-        //     onPressed: debugFunction,
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.bug_report),
+            onPressed: debugFunction,
+          ),
+        ],
       ),
       drawer: MyDrawer(),
       backgroundColor: theme.listViewBackgroundColor,

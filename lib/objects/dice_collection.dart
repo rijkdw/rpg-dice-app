@@ -7,14 +7,13 @@ class DiceCollection {
   int _id;
 
   // CONSTRUCTORS
-  DiceCollection({String name, String expression, int id}) {
+  DiceCollection({String name, String expression, int id=1}) {
     this._name = name;
     this._expression = expression;
-    this._id = id ?? 1;
+    this._id = id;
   }
 
   // FUNCTIONS
-  // TODO
 
   // GETTERS
   String get name => this._name;

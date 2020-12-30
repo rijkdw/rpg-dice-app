@@ -71,7 +71,7 @@ class DiceCollectionListTile extends StatelessWidget {
     } else {
       return ListTile(
         leading: leadingIcon,
-        title: Text(this._diceCollection.name, style: titleTextStyle),
+        title: Text(this._diceCollection.name /*+ '  (${_diceCollection.id})'*/, style: titleTextStyle),
         subtitle: Text(this._diceCollection.expression, style: subtitleTextStyle),
         onTap: onTap,
         onLongPress: onLongPress,
