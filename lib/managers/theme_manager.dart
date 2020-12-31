@@ -56,7 +56,7 @@ class ThemeManager extends ChangeNotifier {
       balanceHeadingColor: Colors.red,
       balanceBarColors: [Colors.red],
       balanceAxesTextColor: Colors.black,
-      balanceCardColor: ColorPalette.gray160,
+      balanceCardColor: Color.fromRGBO(240, 240, 240, 1),
     ),
     ThemeSelection.DARK: MyAppTheme(
       // generic

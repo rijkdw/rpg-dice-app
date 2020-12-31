@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_counter.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
+import 'package:rpg_dice/components/roll_history.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
@@ -29,27 +30,25 @@ class DiceRollerInterface extends StatefulWidget {
 
 class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
   // ATTRIBUTES
-  Result result;
   var historyScrollController = ScrollController();
   bool displayingAResult = false;
 
   @override
   void initState() {
-    // roll();
     super.initState();
+    roll();
   }
 
   void roll() {
-    setState(() {
-      result = Roller.roll(widget._diceCollection.expression);
-      displayingAResult = true;
-      Provider.of<HistoryManager>(context, listen: false).addToHistory(widget._diceCollection.id, result);
-    });
+    widget._diceCollection.roll(context: context);
+    displayingAResult = true;
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Provider.of<ThemeManager>(context).theme;
+    var historyManager = Provider.of<HistoryManager>(context);
+    var lastResult = historyManager.getResultsOfID(widget._diceCollection.id).first;
 
     // TextStyles
     var nameAndExpressionStyle = TextStyle(
@@ -110,148 +109,63 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
         children: [
           // the header that can be tapped to reroll
           InkWell(
-            onTap: roll,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // the DiceCollection's name and dice
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
-                      Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
-                    ],
-                  ),
-                  SizedBox(height: 30),
+            onTap: () {
+              setState(() {
+                roll();
+              });
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // the DiceCollection's name and dice
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
+                    Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
+                  ],
+                ),
+                SizedBox(height: 30),
 
-                  // the current result
-                  SizedBox(
-                    height: 80,
-                    child: displayingAResult
-                        ? Text(displayingAResult ? '${result.total}' : '-', style: currentTotalStyle)
-                        : FaIcon(FontAwesomeIcons.diceD20, size: 80),
-                  ),
-                  SizedBox(height: 12),
+                // the current result
+                SizedBox(
+                  height: 80,
+                  child: displayingAResult
+                      ? Text(displayingAResult ? '${lastResult.total}' : '-', style: currentTotalStyle)
+                      : FaIcon(FontAwesomeIcons.diceD20, size: 80),
+                ),
+                SizedBox(height: 12),
 
-                  // the constituent rolls
-                  SizedBox(
-                    height: 20,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: displayingAResult
-                          ? intersperse(
-                              result.die.map(die2widget).toList(),
-                              () => SizedBox(width: 10),
-                            )
-                          : [],
-                    ),
+                // the constituent rolls
+                SizedBox(
+                  height: 20,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: displayingAResult
+                        ? intersperse(
+                            lastResult.die.map(die2widget).toList(),
+                            () => SizedBox(width: 10),
+                          )
+                        : [],
                   ),
-                  SizedBox(height: 30),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+          SizedBox(height: 30),
 
           // TODO breakdown
 
           // the history
-          _HistoryWidget(widget._diceCollection),
+          RollHistory(widget._diceCollection.id),
+          SizedBox(height: 30),
 
           // the dice counter
           DiceCounter(
             expression: widget._diceCollection.expression,
-            numRepeats: 10000,
+            numRepeats: 1000,
             title: 'Distribution',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// =================================================================================================
-// HISTORY WIDGET
-// =================================================================================================
-
-class _HistoryWidget extends StatelessWidget {
-  // attributes
-  DiceCollection diceCollection;
-
-  // constructor
-  _HistoryWidget(this.diceCollection);
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeManager>(context).theme;
-
-    var historyLabelStyle = TextStyle(
-      color: theme.rollerHistoryLabelColor,
-      fontSize: 16,
-    );
-
-    var historyResultStyle = TextStyle(
-      color: theme.rollerHistoryResultColor,
-      fontSize: 36,
-    );
-
-    return Container(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("History", style: historyLabelStyle),
-              InkWell(
-                child: Icon(
-                  Icons.delete,
-                  color: theme.rollerHistoryLabelColor,
-                ),
-                onTap: () {
-                  Provider.of<HistoryManager>(context, listen: false).clearHistory(diceCollection.id);
-                },
-                splashColor: Colors.transparent,
-              ),
-            ],
-          ),
-          SizedBox(height: 4),
-          ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Consumer<HistoryManager>(
-                builder: (context, historyManager, child) {
-                  // get previous results
-                  List<String> previousResults = Provider.of<HistoryManager>(context)
-                      .getResultsOfID(diceCollection.id)
-                      .map((result) => '${result.total}')
-                      .toList();
-                  if (previousResults.isEmpty) {
-                    previousResults = [''];
-                  }
-                  // make into Text widgets
-                  List<Widget> previousResultWidgets = previousResults.map((result) {
-                    return Text(
-                      result,
-                      style: historyResultStyle,
-                    );
-                  }).toList();
-                  // put space (SizedBoxes) between
-                  List<Widget> previousResultsSpaced = intersperse(
-                    previousResultWidgets,
-                    () => SizedBox(width: 25),
-                  );
-                  return Row(
-                    children: previousResultsSpaced,
-                  );
-                },
-              ),
-            ),
           ),
         ],
       ),

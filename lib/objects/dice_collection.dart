@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
+import 'package:rpg_dice/dice_engine/roller.dart';
+import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/objects/dice_result.dart';
 
 class DiceCollection {
@@ -11,6 +16,14 @@ class DiceCollection {
     this._name = name;
     this._expression = expression;
     this._id = id;
+  }
+
+  Result roll({BuildContext context}) {
+    var result = Roller.roll(_expression);
+    if (context != null) {
+      Provider.of<HistoryManager>(context, listen: false).addToHistory(_id, result);
+    }
+    return result;
   }
 
   // FUNCTIONS

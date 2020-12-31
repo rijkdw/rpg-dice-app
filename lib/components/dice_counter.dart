@@ -12,7 +12,7 @@ class DiceCounter extends StatefulWidget {
   String expression, title;
   int numRepeats;
 
-  DiceCounter({this.expression, this.numRepeats, this.title});
+  DiceCounter({this.expression, this.numRepeats, this.title='Dice Count'});
 
   @override
   _DiceCounterState createState() => _DiceCounterState();
@@ -217,7 +217,6 @@ class _DiceCounterState extends State<DiceCounter> {
     }
 
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
