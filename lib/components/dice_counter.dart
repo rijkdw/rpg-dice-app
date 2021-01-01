@@ -12,7 +12,7 @@ class DiceCounter extends StatefulWidget {
   String expression, title;
   int numRepeats;
 
-  DiceCounter({this.expression, this.numRepeats, this.title='Dice Count'});
+  DiceCounter({this.expression, this.numRepeats, this.title = 'Dice Count'});
 
   @override
   _DiceCounterState createState() => _DiceCounterState();
@@ -21,13 +21,15 @@ class DiceCounter extends StatefulWidget {
 class _DiceCounterState extends State<DiceCounter> {
   Map<int, int> map;
   double maxY;
-  bool isShowingMainData = true;
+  bool isShowingGraph = true;
 
   @override
   void initState() {
     populateMap();
     super.initState();
   }
+
+  void invertView() => setState(() => isShowingGraph = !isShowingGraph);
 
   void populateMap() {
     map = <int, int>{};
@@ -48,155 +50,59 @@ class _DiceCounterState extends State<DiceCounter> {
     maxY = maxInList(map.values.toList()).toDouble() * 1.1;
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   var theme = Provider.of<ThemeManager>(context).theme;
-  //
-  //   var labelStyle = TextStyle(
-  //     color: theme.rollerHistoryLabelColor,
-  //     fontSize: 16,
-  //   );
-  //
-  //   List<LineChartBarData> linesBarData1() {
-  //     final LineChartBarData lineChartBarData1 = LineChartBarData(
-  //       spots: map.keys.map((key) => FlSpot(key.toDouble(), (map[key] / widget.numRepeats))).toList(),
-  //       isCurved: false,
-  //       colors: [
-  //         Colors.red,
-  //       ],
-  //       barWidth: 8,
-  //       isStrokeCapRound: true,
-  //       dotData: FlDotData(
-  //         show: false,
-  //       ),
-  //       belowBarData: BarAreaData(
-  //         show: false,
-  //       ),
-  //     );
-  //     return [
-  //       lineChartBarData1,
-  //     ];
-  //   }
-  //
-  //   LineChartData sampleData1() {
-  //     return LineChartData(
-  //       lineTouchData: LineTouchData(
-  //         touchTooltipData: LineTouchTooltipData(
-  //           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
-  //         ),
-  //         touchCallback: (LineTouchResponse touchResponse) {},
-  //         handleBuiltInTouches: true,
-  //       ),
-  //       gridData: FlGridData(
-  //         show: false,
-  //       ),
-  //       titlesData: FlTitlesData(
-  //         bottomTitles: SideTitles(
-  //           showTitles: true,
-  //           reservedSize: 22,
-  //           getTextStyles: (value) => const TextStyle(
-  //             color: Colors.black,
-  //             fontWeight: FontWeight.bold,
-  //             fontSize: 16,
-  //           ),
-  //           margin: 10,
-  //           getTitles: (value) {
-  //             return '${value.toInt()}';
-  //           },
-  //         ),
-  //         leftTitles: SideTitles(
-  //           showTitles: true,
-  //           interval: 0.1,
-  //           getTextStyles: (value) => const TextStyle(
-  //             color: Colors.black,
-  //             fontWeight: FontWeight.bold,
-  //             fontSize: 14,
-  //           ),
-  //         ),
-  //       ),
-  //       borderData: FlBorderData(
-  //         show: true,
-  //         border: const Border(
-  //           bottom: BorderSide(
-  //             color: Colors.black,
-  //             width: 4,
-  //           ),
-  //           left: BorderSide(
-  //             color: Colors.transparent,
-  //           ),
-  //           right: BorderSide(
-  //             color: Colors.transparent,
-  //           ),
-  //           top: BorderSide(
-  //             color: Colors.transparent,
-  //           ),
-  //         ),
-  //       ),
-  //       minX: 0,
-  //       // maxX: 14,
-  //       // maxY: 4,
-  //       minY: 0,
-  //       lineBarsData: linesBarData1(),
-  //     );
-  //   }
-  //
-  //   return AspectRatio(
-  //     aspectRatio: 1.23,
-  //     child: Stack(
-  //       children: <Widget>[
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             widget.title != null
-  //                 ? Text(
-  //                     'Distribution',
-  //                     style: labelStyle,
-  //                   )
-  //                 : Container(),
-  //             InkWell(
-  //               child: Icon(
-  //                 Icons.refresh,
-  //                 color: theme.rollerHistoryLabelColor,
-  //               ),
-  //               onTap: () {
-  //                 setState(() {
-  //                   populateMap();
-  //                 });
-  //               },
-  //               splashColor: Colors.transparent,
-  //             ),
-  //           ],
-  //         ),
-  //         Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             Expanded(
-  //               child: Padding(
-  //                 padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-  //                 child: LineChart(
-  //                   sampleData1(),
-  //                   swapAnimationDuration: const Duration(milliseconds: 250),
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(
-  //               height: 10,
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     var theme = Provider.of<ThemeManager>(context).theme;
 
     var labelStyle = TextStyle(
       color: theme.rollerHistoryLabelColor,
-      fontSize: 16,
+      fontSize: 20,
     );
+
+    // =================================================================================================
+    // List view
+    // =================================================================================================
+
+    Widget _buildRow(int value) {
+      var valueStyle = TextStyle(fontSize: 18);
+      var countStyle = TextStyle(fontSize: 18);
+      var percentageStyle = TextStyle(fontSize: 18);
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 100,
+            child: Text(
+              '$value:',
+              style: valueStyle,
+            ),
+          ),
+          Container(
+            width: 100,
+            child: Text(
+              '${map[value]}',
+              style: countStyle,
+            ),
+          ),
+          Text(
+            '${map[value] / utils.roundToNDecimals(sumList(map.values.toList()) / 100, 3)}%',
+            style: percentageStyle,
+          ),
+        ],
+      );
+    }
+
+    var listView = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: utils.intersperse(
+        map.keys.map((key) => _buildRow(key)).toList(),
+        () => SizedBox(height: 2),
+      ),
+    );
+
+    // =================================================================================================
+    // Graph view
+    // =================================================================================================
 
     List<BarChartGroupData> _getBarGroups() {
       var groups = <BarChartGroupData>[];
@@ -215,6 +121,49 @@ class _DiceCounterState extends State<DiceCounter> {
       }
       return groups;
     }
+
+    var graphView = Container(
+      width: double.infinity,
+      child: BarChart(
+        BarChartData(
+          alignment: BarChartAlignment.spaceAround,
+          maxY: maxY,
+          barTouchData: BarTouchData(
+            enabled: false,
+            touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: Colors.transparent,
+              tooltipPadding: const EdgeInsets.all(0),
+              tooltipBottomMargin: 0,
+              getTooltipItem: (BarChartGroupData group, int groupIndex, BarChartRodData rod, int rodIndex) {
+                return BarTooltipItem(
+                  '', //rod.y.round().toString(),
+                  TextStyle(
+                    color: theme.balanceHeadingColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
+          ),
+          titlesData: FlTitlesData(
+            show: true,
+            bottomTitles: SideTitles(
+              showTitles: true,
+              getTextStyles: (value) => TextStyle(color: theme.balanceAxesTextColor),
+              margin: 10,
+              getTitles: (double value) => '${value.toInt()}',
+            ),
+            leftTitles: SideTitles(showTitles: false),
+          ),
+          borderData: FlBorderData(show: false),
+          barGroups: _getBarGroups(),
+        ),
+      ),
+    );
+
+    // =================================================================================================
+    // Return
+    // =================================================================================================
 
     return Container(
       width: double.infinity,
@@ -244,43 +193,10 @@ class _DiceCounterState extends State<DiceCounter> {
               ),
             ],
           ),
-          Container(
-            width: double.infinity,
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                maxY: maxY,
-                barTouchData: BarTouchData(
-                  enabled: false,
-                  touchTooltipData: BarTouchTooltipData(
-                    tooltipBgColor: Colors.transparent,
-                    tooltipPadding: const EdgeInsets.all(0),
-                    tooltipBottomMargin: 0,
-                    getTooltipItem: (BarChartGroupData group, int groupIndex, BarChartRodData rod, int rodIndex) {
-                      return BarTooltipItem(
-                        '', //rod.y.round().toString(),
-                        TextStyle(
-                          color: theme.balanceHeadingColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                titlesData: FlTitlesData(
-                  show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (value) => TextStyle(color: theme.balanceAxesTextColor),
-                    margin: 10,
-                    getTitles: (double value) => '${value.toInt()}',
-                  ),
-                  leftTitles: SideTitles(showTitles: false),
-                ),
-                borderData: FlBorderData(show: false),
-                barGroups: _getBarGroups(),
-              ),
-            ),
+          SizedBox(height: 4),
+          InkWell(
+            onTap: invertView,
+            child: isShowingGraph ? graphView : listView,
           ),
         ],
       ),

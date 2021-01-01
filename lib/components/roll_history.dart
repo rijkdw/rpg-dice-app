@@ -19,7 +19,7 @@ class RollHistory extends StatelessWidget {
 
     var historyLabelStyle = TextStyle(
       color: theme.rollerHistoryLabelColor,
-      fontSize: 16,
+      fontSize: 20,
     );
 
     var historyResultStyle = TextStyle(

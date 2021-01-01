@@ -26,11 +26,8 @@ class DiceRollerScreen extends StatelessWidget {
         //   _diceCollection.name,
         // ),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: DiceRollerInterface(
-          diceCollection: _diceCollection,
-        ),
+      body: DiceRollerInterface(
+        diceCollection: _diceCollection,
       ),
     );
   }
