@@ -17,7 +17,7 @@ class BalanceScreen extends StatefulWidget {
 class _BalanceScreenState extends State<BalanceScreen> {
   var face2countMap = <int, int>{};
   var _diceSize = 6;
-  var _count = 10000;
+  var _count = 100000;
   var _progress = 0;
 
   var _testIsRunning = false;
@@ -122,7 +122,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 width: 100,
                 alignment: Alignment.center,
                 child: Text(
-                  _testIsRunning ? utils.demarcateThousands(_progress) : 'Start test',
+                  _testIsRunning ? utils.demarcateThousands(_progress) : 'START TEST',
                   style: TextStyle(color: theme.genericButtonTextColor),
                 ),
               ),
@@ -179,12 +179,12 @@ class _CountViewer extends StatelessWidget {
 
     String getToolTip(int y) {
       var count = utils.sumList(map.values.toList());
-      var perc = utils.roundToNDecimals(y / count * 100, 2);
+      var perc = utils.roundToNDecimals(y / (count+1) * 100, 2);
       return utils.demarcateThousands(y.round()) + '\n$perc%';
     }
 
     return Card(
-      color: theme.balanceCardColor,
+      color: theme.genericCardColor,
       elevation: 0,
       child: Container(
         padding: const EdgeInsets.fromLTRB(4, 16, 4, 8),

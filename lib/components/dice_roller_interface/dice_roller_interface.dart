@@ -7,9 +7,11 @@ import 'package:rpg_dice/components/dice_roller_interface/roll_history.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
+import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
+import 'package:rpg_dice/popups/create_new_dice_collection_popup.dart';
 import 'package:rpg_dice/utils.dart';
 
 // ignore: must_be_immutable
@@ -35,7 +37,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
   @override
   void initState() {
     super.initState();
-    roll();
+    // roll();
   }
 
   void roll() {
@@ -56,13 +58,18 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 
     // TextStyles
     var nameAndExpressionStyle = TextStyle(
-      fontSize: 22,
+      fontSize: 18,
       color: theme.rollerNameAndExpressionColor,
     );
 
     var currentTotalStyle = TextStyle(
       color: theme.rollerTotalColor,
       fontSize: 64,
+    );
+
+    var labelStyle = TextStyle(
+      color: theme.rollerHistoryLabelColor,
+      fontSize: 20,
     );
 
     Widget die2widget(Die die, {TextStyle baseTextStyle}) {
@@ -108,16 +115,68 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       behavior: NoGlowScrollBehavior(),
       child: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              // the name and expression
+              Card(
+                  elevation: 0,
+                  color: theme.genericCardColor,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Info', style: labelStyle),
+                            InkWell(
+                              child: Icon(
+                                FontAwesomeIcons.wrench,
+                                size: 20,
+                                color: theme.rollerHistoryLabelColor,
+                              ),
+                              onTap: () {
+                                // open the other dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CreateNewDiceCollectionPopup(
+                                      diceCollection: widget._diceCollection,
+                                    );
+                                  },
+                                );
+                              },
+                              splashColor: Colors.transparent,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 6),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${widget._diceCollection.name}', style: nameAndExpressionStyle),
+                            Text('${widget._diceCollection.expression}', style: nameAndExpressionStyle),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+              SizedBox(height: 10),
+
               // the header that can be tapped to reroll
               Card(
+                elevation: 0,
+                color: theme.genericCardColor,
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onLongPress: () {},
                     onTap: () {
                       setState(() {
                         roll();
@@ -127,62 +186,56 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
                       width: double.infinity,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // the DiceCollection's name and dice
-                          // Row(
-                          //   mainAxisSize: MainAxisSize.max,
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
-                          //     Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
-                          //   ],
-                          // ),
-                          // SizedBox(height: 30),
+                        children: lastResult != null
+                            ? [
+                                // the current result
+                                SizedBox(height: 80, child: Text('${lastResult.total}', style: currentTotalStyle)),
+                                // SizedBox(height: 12),
 
-                          // the current result
-                          SizedBox(
-                            height: 80,
-                            child: lastResult != null
-                                ? Text('${lastResult.total}', style: currentTotalStyle)
-                                : FaIcon(FontAwesomeIcons.diceD20, size: 80),
-                          ),
-                          SizedBox(height: 12),
-
-                          // the constituent rolls
-                          SizedBox(
-                            height: 20,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: lastResult != null
-                                  ? intersperse(
+                                // the constituent rolls
+                                SizedBox(
+                                  height: 20,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: intersperse(
                                       lastResult.die.map(die2widget).toList(),
                                       () => SizedBox(width: 10),
-                                    )
-                                  : [],
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                        ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 12),
+                              ]
+                            : [
+                                Container(
+                                  height: 112,
+                                  alignment: Alignment.center,
+                                  child: FaIcon(FontAwesomeIcons.diceD20, size: 80),
+                                ),
+                              ],
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
 
-              // TODO breakdown
+              // TODO a breakdown of the rolls?
 
               // the history
               Card(
+                elevation: 0,
+                color: theme.genericCardColor,
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: RollHistory(widget._diceCollection.id),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
 
               // the dice counter
               Card(
+                elevation: 0,
+                color: theme.genericCardColor,
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: DiceCounter(

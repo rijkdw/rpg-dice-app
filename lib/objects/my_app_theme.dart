@@ -8,6 +8,7 @@ class MyAppTheme {
   Color genericButtonColor;
   Color genericButtonTextColor;
   Color genericTextColor;
+  Color genericCardColor;
 
   // drawer
   Color drawerHeaderColor;
@@ -65,6 +66,7 @@ class MyAppTheme {
     this.genericButtonColor,
     this.genericButtonTextColor,
     this.genericTextColor,
+    this.genericCardColor,
     // drawer
     this.drawerHeaderColor,
     this.drawerHeaderTextColor,

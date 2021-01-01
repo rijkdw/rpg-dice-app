@@ -23,7 +23,8 @@ class DiceRollerScreen extends StatelessWidget {
         backgroundColor: theme.appbarColor,
         elevation: 0,
         title: Text(
-          '${_diceCollection.name} (${_diceCollection.expression})',
+          // '${_diceCollection.name} (${_diceCollection.expression})',
+          'Roller',
         ),
       ),
       body: DiceRollerInterface(

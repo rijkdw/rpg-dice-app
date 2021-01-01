@@ -51,6 +51,13 @@ class CollectionManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  DiceCollection getCollection(int id) {
+    if (!_diceCollectionsMap.keys.contains(id)) {
+      return null;
+    }
+    return _diceCollectionsMap[id];
+  }
+
   void deleteCollection(int id) {
     print('CollectionManager deleting collection with id=$id');
     this._diceCollectionsMap.remove(id);

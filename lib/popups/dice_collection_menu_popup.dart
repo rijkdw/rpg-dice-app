@@ -21,7 +21,7 @@ class DiceCollectionMenuPopup extends StatelessWidget {
 
     Widget editMenuItem = _MenuListTile(
       iconData: FontAwesomeIcons.wrench,
-      text: "Edit",
+      text: 'Edit',
       onTap: () {
         // close this popup
         Navigator.of(context).pop();

@@ -12,10 +12,11 @@ class ThemeManager extends ChangeNotifier {
   Map<ThemeSelection, MyAppTheme> _themeMap = {
     ThemeSelection.LIGHT: MyAppTheme(
       // generic
-      genericCanvasColor: Colors.white,
+      genericCanvasColor: Color.fromRGBO(240, 240, 240, 1),
       genericButtonTextColor: Colors.white,
       genericButtonColor: Colors.red,
       genericTextColor: Colors.black,
+      genericCardColor: Colors.white,
       // drawer
       drawerHeaderColor: Colors.red,
       drawerHeaderTextColor: Colors.white,
@@ -53,7 +54,7 @@ class ThemeManager extends ChangeNotifier {
       newFormFieldButtonColor: Colors.red,
       newFormFieldButtonTextColor: Colors.white,
       // balance
-      balanceHeadingColor: Colors.red,
+      balanceHeadingColor: Colors.black,
       balanceBarColors: [Colors.red],
       balanceAxesTextColor: Colors.black,
       balanceCardColor: Color.fromRGBO(240, 240, 240, 1),
@@ -64,6 +65,7 @@ class ThemeManager extends ChangeNotifier {
       genericButtonTextColor: Colors.white,
       genericCanvasColor: ColorPalette.darkGray,
       genericTextColor: Colors.white,
+      genericCardColor: ColorPalette.medGray,
       // drawer
       drawerHeaderColor: ColorPalette.medGray,
       drawerHeaderTextColor: Colors.white,
@@ -109,28 +111,33 @@ class ThemeManager extends ChangeNotifier {
   };
 
   // the current selection between light mode and dark mode
-  ThemeSelection _currentThemeSelection;
+  ThemeSelection _currentThemeSelection = ThemeSelection.LIGHT;
 
   // CONSTRUCTOR
 
   ThemeManager() {
-    this._currentThemeSelection = ThemeSelection.LIGHT;
-    // TODO make this a saved setting via SharedPreferences or something
+    _loadFromLocal();
   }
 
   // STORE / LOAD
 
-  var _storageKey = 'theme_manager';
+  var _storageKey = 'theme_islight';
 
   void _storeToLocal() async {
     print('ThemeManager._storeToLocal() is starting.');
     var prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_storageKey, _currentThemeSelection == ThemeSelection.LIGHT);
     print('ThemeManager._storeToLocal() has finished.');
   }
 
   void _loadFromLocal() async {
     print('ThemeManager._loadFromLocal() is starting.');
     var prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(_storageKey)) {
+      _currentThemeSelection = prefs.getBool(_storageKey) ? ThemeSelection.LIGHT : ThemeSelection.DARK;
+    } else {
+      _currentThemeSelection = ThemeSelection.LIGHT;
+    }
     print('ThemeManager._loadFromLocal() has finished.');
     notifyListeners();
   }
