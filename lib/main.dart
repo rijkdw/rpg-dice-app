@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
 
     var distributionManager = DistributionManager();
     var collectionManager = CollectionManager();
-    collectionManager.diceCollections.forEach((collection) {
-      distributionManager.createDistribution(collection);
-    });
+    // collectionManager.diceCollections.forEach((collection) {
+    //   distributionManager.createDistribution(collection);
+    // });
 
     return MultiProvider(
       providers: [

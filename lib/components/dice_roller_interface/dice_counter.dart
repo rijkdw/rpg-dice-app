@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
+import 'package:rpg_dice/managers/distribution_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/utils.dart' as utils;
 import 'dart:math' as math;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/dice_roller_interface.dart';
+import 'package:rpg_dice/components/dice_roller_interface/dice_roller_interface.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';

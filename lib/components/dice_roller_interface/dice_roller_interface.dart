@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/dice_counter.dart';
+import 'package:rpg_dice/components/dice_roller_interface/dice_counter.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
-import 'package:rpg_dice/components/roll_history.dart';
+import 'package:rpg_dice/components/dice_roller_interface/roll_history.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
@@ -108,55 +108,64 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       behavior: NoGlowScrollBehavior(),
       child: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               // the header that can be tapped to reroll
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    roll();
-                  });
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // the DiceCollection's name and dice
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
-                        Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-
-                    // the current result
-                    SizedBox(
-                      height: 80,
-                      child: lastResult != null
-                          ? Text('${lastResult.total}', style: currentTotalStyle)
-                          : FaIcon(FontAwesomeIcons.diceD20, size: 80),
-                    ),
-                    SizedBox(height: 12),
-
-                    // the constituent rolls
-                    SizedBox(
-                      height: 20,
-                      child: Row(
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        roll();
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: lastResult != null
-                            ? intersperse(
-                                lastResult.die.map(die2widget).toList(),
-                                () => SizedBox(width: 10),
-                              )
-                            : [],
+                        children: [
+                          // the DiceCollection's name and dice
+                          // Row(
+                          //   mainAxisSize: MainAxisSize.max,
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(this.widget._diceCollection.name ?? 'Unnamed hand', style: nameAndExpressionStyle),
+                          //     Text(this.widget._diceCollection.expression, style: nameAndExpressionStyle),
+                          //   ],
+                          // ),
+                          // SizedBox(height: 30),
+
+                          // the current result
+                          SizedBox(
+                            height: 80,
+                            child: lastResult != null
+                                ? Text('${lastResult.total}', style: currentTotalStyle)
+                                : FaIcon(FontAwesomeIcons.diceD20, size: 80),
+                          ),
+                          SizedBox(height: 12),
+
+                          // the constituent rolls
+                          SizedBox(
+                            height: 20,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: lastResult != null
+                                  ? intersperse(
+                                      lastResult.die.map(die2widget).toList(),
+                                      () => SizedBox(width: 10),
+                                    )
+                                  : [],
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
               SizedBox(height: 30),
@@ -164,14 +173,24 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
               // TODO breakdown
 
               // the history
-              RollHistory(widget._diceCollection.id),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: RollHistory(widget._diceCollection.id),
+                ),
+              ),
               SizedBox(height: 30),
 
               // the dice counter
-              DiceCounter(
-                expression: widget._diceCollection.expression,
-                numRepeats: 1000,
-                title: 'Distribution',
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: DiceCounter(
+                    expression: widget._diceCollection.expression,
+                    numRepeats: 1000,
+                    title: 'Distribution',
+                  ),
+                ),
               ),
             ],
           ),

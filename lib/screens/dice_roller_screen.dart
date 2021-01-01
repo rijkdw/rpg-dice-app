@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/dice_roller_interface.dart';
+import 'package:rpg_dice/components/dice_roller_interface/dice_roller_interface.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 
@@ -22,9 +22,9 @@ class DiceRollerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: theme.appbarColor,
         elevation: 0,
-        // title: Text(
-        //   _diceCollection.name,
-        // ),
+        title: Text(
+          '${_diceCollection.name} (${_diceCollection.expression})',
+        ),
       ),
       body: DiceRollerInterface(
         diceCollection: _diceCollection,
