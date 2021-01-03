@@ -18,7 +18,7 @@ class RollHistory extends StatelessWidget {
     var theme = Provider.of<ThemeManager>(context).theme;
 
     var historyLabelStyle = TextStyle(
-      color: theme.rollerHistoryLabelColor,
+      color: theme.rollerCardHeadingColor,
       fontSize: 20,
     );
 
@@ -38,7 +38,7 @@ class RollHistory extends StatelessWidget {
             InkWell(
               child: Icon(
                 Icons.delete,
-                color: theme.rollerHistoryLabelColor,
+                color: theme.rollerCardHeadingColor,
               ),
               onTap: () {
                 Provider.of<HistoryManager>(context, listen: false).clearHistory(id);

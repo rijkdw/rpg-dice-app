@@ -68,7 +68,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     );
 
     var labelStyle = TextStyle(
-      color: theme.rollerHistoryLabelColor,
+      color: theme.rollerCardHeadingColor,
       fontSize: 20,
     );
 
@@ -137,7 +137,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
                               child: Icon(
                                 FontAwesomeIcons.wrench,
                                 size: 20,
-                                color: theme.rollerHistoryLabelColor,
+                                color: theme.rollerCardHeadingColor,
                               ),
                               onTap: () {
                                 // open the other dialog
@@ -209,7 +209,11 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
                                 Container(
                                   height: 112,
                                   alignment: Alignment.center,
-                                  child: FaIcon(FontAwesomeIcons.diceD20, size: 80),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.diceD20,
+                                    size: 80,
+                                    color: theme.genericPrimaryTextColor,
+                                  ),
                                 ),
                               ],
                       ),

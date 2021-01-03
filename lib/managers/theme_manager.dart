@@ -15,7 +15,7 @@ class ThemeManager extends ChangeNotifier {
       genericCanvasColor: Color.fromRGBO(240, 240, 240, 1),
       genericButtonTextColor: Colors.white,
       genericButtonColor: Colors.red,
-      genericTextColor: Colors.black,
+      genericPrimaryTextColor: Colors.black,
       genericCardColor: Colors.white,
       // drawer
       drawerHeaderColor: Colors.red,
@@ -39,7 +39,7 @@ class ThemeManager extends ChangeNotifier {
       rollerNameAndExpressionColor: ColorPalette.darkGray,
       rollerHistoryResultColor: Colors.black,
       rollerTotalColor: Colors.black,
-      rollerHistoryLabelColor: ColorPalette.darkGray,
+      rollerCardHeadingColor: ColorPalette.darkGray,
       rollerDiscardedColor: ColorPalette.gray160,
       // menu popup
       menuPopupListTileTextColor: Colors.black,
@@ -64,7 +64,7 @@ class ThemeManager extends ChangeNotifier {
       genericButtonColor: Colors.red,
       genericButtonTextColor: Colors.white,
       genericCanvasColor: ColorPalette.darkGray,
-      genericTextColor: Colors.white,
+      genericPrimaryTextColor: Colors.white,
       genericCardColor: ColorPalette.medGray,
       // drawer
       drawerHeaderColor: ColorPalette.medGray,
@@ -86,7 +86,7 @@ class ThemeManager extends ChangeNotifier {
       // dice roller popup
       rollerPopupBackgroundColor: ColorPalette.medGray,
       rollerNameAndExpressionColor: ColorPalette.white225,
-      rollerHistoryLabelColor: ColorPalette.white180,
+      rollerCardHeadingColor: ColorPalette.white180,
       rollerTotalColor: Colors.white,
       rollerHistoryResultColor: ColorPalette.white225,
       rollerDiscardedColor: ColorPalette.lightGray,

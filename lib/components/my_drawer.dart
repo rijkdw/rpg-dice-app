@@ -44,6 +44,8 @@ class MyDrawer extends StatelessWidget {
       onTap: () {},
     );
 
+    // TODO help menu item
+
     var balanceMenuItem = _MenuListTile(
       text: "Balance",
       iconData: Icons.zoom_in,

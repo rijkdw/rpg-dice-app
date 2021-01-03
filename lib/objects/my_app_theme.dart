@@ -7,7 +7,8 @@ class MyAppTheme {
   Color genericCanvasColor;
   Color genericButtonColor;
   Color genericButtonTextColor;
-  Color genericTextColor;
+  Color genericPrimaryTextColor;
+  Color genericSecondaryTextColor;
   Color genericCardColor;
 
   // drawer
@@ -34,7 +35,7 @@ class MyAppTheme {
   // dice roller popup
   Color rollerPopupBackgroundColor;
   Color rollerNameAndExpressionColor;
-  Color rollerHistoryLabelColor;
+  Color rollerCardHeadingColor;
   Color rollerDiscardedColor;
   Color rollerTotalColor;
   Color rollerHistoryResultColor;
@@ -65,7 +66,8 @@ class MyAppTheme {
     this.genericCanvasColor,
     this.genericButtonColor,
     this.genericButtonTextColor,
-    this.genericTextColor,
+    this.genericPrimaryTextColor,
+    this.genericSecondaryTextColor,
     this.genericCardColor,
     // drawer
     this.drawerHeaderColor,
@@ -87,7 +89,7 @@ class MyAppTheme {
     // dice roller
     this.rollerPopupBackgroundColor,
     this.rollerNameAndExpressionColor,
-    this.rollerHistoryLabelColor,
+    this.rollerCardHeadingColor,
     this.rollerHistoryResultColor,
     this.rollerTotalColor,
     this.rollerDiscardedColor,

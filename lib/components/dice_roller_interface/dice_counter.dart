@@ -56,7 +56,7 @@ class _DiceCounterState extends State<DiceCounter> {
     var theme = Provider.of<ThemeManager>(context).theme;
 
     var labelStyle = TextStyle(
-      color: theme.rollerHistoryLabelColor,
+      color: theme.rollerCardHeadingColor,
       fontSize: 20,
     );
 
@@ -65,9 +65,6 @@ class _DiceCounterState extends State<DiceCounter> {
     // =================================================================================================
 
     Widget _buildRow(int value) {
-      var valueStyle = TextStyle(fontSize: 18);
-      var countStyle = TextStyle(fontSize: 18);
-      var percentageStyle = TextStyle(fontSize: 18);
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -75,19 +72,19 @@ class _DiceCounterState extends State<DiceCounter> {
             width: 100,
             child: Text(
               '$value:',
-              style: valueStyle,
+              style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
             ),
           ),
           Container(
             width: 100,
             child: Text(
-              '${map[value]}',
-              style: countStyle,
+              '${map[value]}/${widget.numRepeats}',
+              style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
             ),
           ),
           Text(
             '${map[value] / utils.roundToNDecimals(sumList(map.values.toList()) / 100, 3)}%',
-            style: percentageStyle,
+            style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
           ),
         ],
       );
@@ -183,7 +180,7 @@ class _DiceCounterState extends State<DiceCounter> {
               InkWell(
                 child: Icon(
                   Icons.refresh,
-                  color: theme.rollerHistoryLabelColor,
+                  color: theme.rollerCardHeadingColor,
                 ),
                 onTap: () {
                   setState(() {

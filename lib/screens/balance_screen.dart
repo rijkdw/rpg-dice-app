@@ -113,7 +113,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             Text(
               headingText,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, color: theme.genericTextColor),
+              style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
             ),
             SizedBox(height: 15),
             RaisedButton(
