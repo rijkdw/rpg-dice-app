@@ -66,6 +66,10 @@ class RollDisplay extends StatelessWidget {
     }
 
     RichText result2richText(Result result) {
+      if (result == null) {
+        return RichText(text: TextSpan(text: ''));
+      }
+
       var textSpans = <TextSpan>[];
       for (var i = 0; i < result.die.length; i++) {
         textSpans.add(die2widget(result.die[i], inc: i != result.die.length - 1));
@@ -91,54 +95,36 @@ class RollDisplay extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: lastResult != null
-              // has been rolls?  show the last one
-              ? [
-                  // the current result
-                  Container(
-                    height: 80,
-                    child: Text(
-                      '${lastResult.total}',
-                      style: TextStyle(color: theme.rollerTotalColor, fontSize: 64),
-                    ),
+        child: AnimatedCrossFade(
+          firstChild: Container(
+            height: 106,
+            alignment: Alignment.center,
+            child: FaIcon(
+              FontAwesomeIcons.diceD20,
+              size: 80,
+              color: theme.rollerReadyIconColor,
+            ),
+          ),
+          secondChild: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 80,
+                  child: Text(
+                    lastResult == null ? '' : '${lastResult.total}',
+                    style: TextStyle(color: theme.rollerTotalColor, fontSize: 64),
                   ),
-                  // SizedBox(height: 12),
-
-                  // the constituent rolls
-                  // Row(
-                  //   mainAxisSize: MainAxisSize.min,
-                  //   children: intersperse(
-                  //     lastResult.die.map(die2widget).toList(),
-                  //     () => SizedBox(width: 10),
-                  //   ),
-                  // ),
-                  // RichText(
-                  //   text: TextSpan(
-                  //     children: List<TextSpan>.from(joinLists(
-                  //       lastResult.die.map(die2widget).toList(),
-                  //     )),
-                  //   ),
-                  //   textAlign: TextAlign.center,
-                  // ),
-                  // SizedBox(height: 12),
-                  Container(
-                    child: result2richText(lastResult),
-                  ),
-                ]
-              // no rolls yet?  return the d20 logo
-              : [
-                  Container(
-                    height: 112,
-                    alignment: Alignment.center,
-                    child: FaIcon(
-                      FontAwesomeIcons.diceD20,
-                      size: 80,
-                      color: theme.rollerReadyIconColor,
-                    ),
-                  ),
-                ],
+                ),
+                Container(
+                  child: result2richText(lastResult),
+                ),
+              ],
+            ),
+          ),
+          crossFadeState: lastResult == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: Duration(milliseconds: 300),
         ),
       ),
     );
