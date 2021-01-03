@@ -8,18 +8,18 @@ import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/utils.dart' as utils;
 import 'dart:math' as math;
 
-class DiceCounter extends StatefulWidget {
+class DistributionViewer extends StatefulWidget {
   // attributes
   String expression, title;
   int numRepeats;
 
-  DiceCounter({this.expression, this.numRepeats, this.title = 'Dice Count'});
+  DistributionViewer({this.expression, this.numRepeats, this.title = 'Dice Count'});
 
   @override
-  _DiceCounterState createState() => _DiceCounterState();
+  _DistributionViewerState createState() => _DistributionViewerState();
 }
 
-class _DiceCounterState extends State<DiceCounter> {
+class _DistributionViewerState extends State<DistributionViewer> {
   Map<int, int> map;
   double maxY;
   bool isShowingGraph = true;

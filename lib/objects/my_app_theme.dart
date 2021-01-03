@@ -32,7 +32,7 @@ class MyAppTheme {
   Color listTileSubtitleTextColor;
   Color listTileIconColor;
 
-  // dice roller popup
+  // dice roller
   Color rollerPopupBackgroundColor;
   Color rollerNameAndExpressionColor;
   Color rollerCardHeadingColor;

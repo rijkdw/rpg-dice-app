@@ -29,6 +29,12 @@ class HistoryManager extends ChangeNotifier {
     return _id2historyMap[id];
   }
 
+  Result getLastResultOfID(int id) {
+    ensureKeyIsPresent(id);
+    if (_id2historyMap[id].isEmpty) return null;
+    return _id2historyMap[id].first;
+  }
+
   void clearHistory(int id) {
     _id2historyMap[id] = <Result>[];
     notifyListeners();

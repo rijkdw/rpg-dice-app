@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/dice_roller_interface/dice_counter.dart';
+import 'package:rpg_dice/components/dice_roller_interface/distribution_viewer.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
