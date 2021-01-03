@@ -26,6 +26,11 @@ class HomeScreen extends StatelessWidget {
           expression: '4d6kh3',
           name: 'stat',
           id: 2,
+        ),
+        DiceCollection(
+          expression: '1d20n10',
+          name: 'Reliable talent',
+          id: 3,
         )
       ];
       dummyCollections.forEach((coll) => collectionManager.addToCollections(coll));

@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
-import 'package:rpg_dice/managers/distribution_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/utils.dart' as utils;
 import 'dart:math' as math;
 
 class DistributionViewer extends StatefulWidget {
+  // -------------------------------------------------------------------------------------------------
   // attributes
+  // -------------------------------------------------------------------------------------------------
   String expression, title;
   int numRepeats;
 
+  // -------------------------------------------------------------------------------------------------
+  // constructor
+  // -------------------------------------------------------------------------------------------------
   DistributionViewer({this.expression, this.numRepeats, this.title = 'Dice Count'});
 
   @override
@@ -20,6 +24,9 @@ class DistributionViewer extends StatefulWidget {
 }
 
 class _DistributionViewerState extends State<DistributionViewer> {
+  // -------------------------------------------------------------------------------------------------
+  // attributes
+  // -------------------------------------------------------------------------------------------------
   Map<int, int> map;
   double maxY;
   bool isShowingGraph = true;
@@ -29,6 +36,10 @@ class _DistributionViewerState extends State<DistributionViewer> {
     populateMap();
     super.initState();
   }
+
+  // -------------------------------------------------------------------------------------------------
+  // functions
+  // -------------------------------------------------------------------------------------------------
 
   void invertView() => setState(() => isShowingGraph = !isShowingGraph);
 
@@ -51,56 +62,88 @@ class _DistributionViewerState extends State<DistributionViewer> {
     maxY = maxInList(map.values.toList()).toDouble() * 1.1;
   }
 
+  // -------------------------------------------------------------------------------------------------
+  // build
+  // -------------------------------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
+    // -------------------------------------------------------------------------------------------------
+    // variables
+    // -------------------------------------------------------------------------------------------------
+
     var theme = Provider.of<ThemeManager>(context).theme;
 
-    var labelStyle = TextStyle(
-      color: theme.rollerCardHeadingColor,
-      fontSize: 20,
-    );
+    // -------------------------------------------------------------------------------------------------
+    // list view tools
+    // -------------------------------------------------------------------------------------------------
 
-    // =================================================================================================
-    // List view
-    // =================================================================================================
-
-    Widget _buildRow(int value) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    TableRow _buildRow(int value) {
+      return TableRow(
         children: [
           Container(
-            width: 100,
+            height: 25,
             child: Text(
-              '$value:',
-              style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
-            ),
-          ),
-          Container(
-            width: 100,
-            child: Text(
-              '${map[value]}/${widget.numRepeats}',
+              '$value',
               style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
             ),
           ),
           Text(
+            '${map[value]}',
+            style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
+            textAlign: TextAlign.right,
+          ),
+          Text(
             '${map[value] / utils.roundToNDecimals(sumList(map.values.toList()) / 100, 3)}%',
             style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
+            textAlign: TextAlign.right,
           ),
         ],
       );
     }
 
-    var listView = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: utils.intersperse(
-        map.keys.map((key) => _buildRow(key)).toList(),
-        () => SizedBox(height: 2),
+    // var listView = Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: utils.intersperse(
+    //     map.keys.map((key) => _buildRow(key)).toList(),
+    //     () => SizedBox(height: 2),
+    //   ),
+    // );
+
+    var listView = Container(
+      width: double.infinity,
+      child: Table(
+        defaultColumnWidth: FlexColumnWidth(),
+        children: [
+          TableRow(
+            children: [
+              Container(
+                height: 25,
+                child: Text(
+                  'Value',
+                  style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Text(
+                'Count /${widget.numRepeats}',
+                style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.right,
+              ),
+              Text(
+                'Percentage',
+                style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          ...map.keys.map((key) => _buildRow(key)).toList()
+        ],
       ),
     );
 
-    // =================================================================================================
-    // Graph view
-    // =================================================================================================
+    // -------------------------------------------------------------------------------------------------
+    // graph view tools
+    // -------------------------------------------------------------------------------------------------
 
     List<BarChartGroupData> _getBarGroups() {
       var groups = <BarChartGroupData>[];
@@ -159,9 +202,9 @@ class _DistributionViewerState extends State<DistributionViewer> {
       ),
     );
 
-    // =================================================================================================
-    // Return
-    // =================================================================================================
+    // -------------------------------------------------------------------------------------------------
+    // return
+    // -------------------------------------------------------------------------------------------------
 
     return Container(
       width: double.infinity,
@@ -174,7 +217,10 @@ class _DistributionViewerState extends State<DistributionViewer> {
               widget.title != null
                   ? Text(
                       'Distribution',
-                      style: labelStyle,
+                      style: TextStyle(
+                        color: theme.rollerCardHeadingColor,
+                        fontSize: 20,
+                      ),
                     )
                   : Container(),
               InkWell(
@@ -191,9 +237,11 @@ class _DistributionViewerState extends State<DistributionViewer> {
               ),
             ],
           ),
-          SizedBox(height: 4),
+          SizedBox(height: 10),
           InkWell(
             onTap: invertView,
+            focusColor: Colors.transparent,
+            splashColor: Colors.transparent,
             child: isShowingGraph ? graphView : listView,
           ),
         ],

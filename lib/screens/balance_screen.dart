@@ -21,6 +21,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
   var _progress = 0;
 
   var _testIsRunning = false;
+  var _showToolTips = false;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
     // await Future.delayed(Duration(milliseconds: 500));
     setState(() {
       _testIsRunning = true;
+      _showToolTips = false;
     });
     for (var i = 0; i < _count && _testIsRunning; i++) {
       await Future.delayed(Duration(microseconds: 50));
@@ -57,16 +59,19 @@ class _BalanceScreenState extends State<BalanceScreen> {
     }
     setState(() {
       _testIsRunning = false;
+      _showToolTips = true;
     });
   }
 
   void stopBalanceCheck() async {
     setState(() {
       _testIsRunning = false;
+      _showToolTips = false;
     });
     await Future.delayed(Duration(microseconds: 100));
     setState(() {
       clearMap();
+      _showToolTips = false;
     });
   }
 
@@ -138,7 +143,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             SizedBox(height: 15),
             _CountViewer(
               map: face2countMap,
-              showTooltips: !_testIsRunning,
+              showTooltips: !_testIsRunning && _showToolTips,
               maxY: _count / _diceSize * 1.2,
             ),
           ],

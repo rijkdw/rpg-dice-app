@@ -42,22 +42,17 @@ class RollDisplay extends StatelessWidget {
       if (die.isCrit || die.isFail) textStyle = textStyle.copyWith(fontWeight: FontWeight.bold);
       // gray out a discarded Die
       if (die.isDiscarded) textStyle = textStyle.copyWith(color: theme.rollerDiscardedColor);
+      // strikethrough an overwritten Die
       if (die.isOverwritten) {
         return RichText(
           text: TextSpan(
             children: [
               TextSpan(
                 text: '${die.values.first}',
-                style: baseTextStyle,
-              ),
-              WidgetSpan(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Icon(Icons.arrow_right_alt_rounded),
-                ),
+                style: textStyle.copyWith(decoration: TextDecoration.lineThrough),
               ),
               TextSpan(
-                text: '${die.value}',
+                text: '  ${die.value}',
                 style: textStyle,
               ),
             ],

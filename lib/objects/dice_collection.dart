@@ -6,17 +6,38 @@ import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/objects/dice_result.dart';
 
 class DiceCollection {
-  // ATTRIBUTES
+  // -------------------------------------------------------------------------------------------------
+  // attributes
+  // -------------------------------------------------------------------------------------------------
+
   String _name;
   String _expression;
   int _id;
 
-  // CONSTRUCTORS
+  // -------------------------------------------------------------------------------------------------
+  // constructors
+  // -------------------------------------------------------------------------------------------------
+
   DiceCollection({String name, String expression, int id=1}) {
     this._name = name;
     this._expression = expression;
     this._id = id;
   }
+
+  // -------------------------------------------------------------------------------------------------
+  // factories
+  // -------------------------------------------------------------------------------------------------
+
+  factory DiceCollection.dummy() {
+    return DiceCollection(
+      expression: '1d6',
+      name: 'aaaaa'
+    );
+  }
+
+  // -------------------------------------------------------------------------------------------------
+  // functions
+  // -------------------------------------------------------------------------------------------------
 
   Result roll({BuildContext context}) {
     var result = Roller.roll(_expression);
@@ -25,8 +46,6 @@ class DiceCollection {
     }
     return result;
   }
-
-  // FUNCTIONS
 
   // GETTERS
   String get name => this._name;

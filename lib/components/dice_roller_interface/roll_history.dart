@@ -7,25 +7,37 @@ import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/utils.dart';
 
 class RollHistory extends StatelessWidget {
+  // -------------------------------------------------------------------------------------------------
   // attributes
+  // -------------------------------------------------------------------------------------------------
   int id;
 
+  // -------------------------------------------------------------------------------------------------
   // constructor
+  // -------------------------------------------------------------------------------------------------
   RollHistory(this.id);
 
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeManager>(context).theme;
+    // -------------------------------------------------------------------------------------------------
+    // variables
+    // -------------------------------------------------------------------------------------------------
 
-    var historyLabelStyle = TextStyle(
+    var historyManager = Provider.of<HistoryManager>(context);
+
+    var theme = Provider.of<ThemeManager>(context).theme;
+    var headingStyle = TextStyle(
       color: theme.rollerCardHeadingColor,
       fontSize: 20,
     );
-
-    var historyResultStyle = TextStyle(
+    var resultStyle = TextStyle(
       color: theme.rollerHistoryResultColor,
       fontSize: 36,
     );
+
+    // -------------------------------------------------------------------------------------------------
+    // return
+    // -------------------------------------------------------------------------------------------------
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,16 +46,24 @@ class RollHistory extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('History', style: historyLabelStyle),
-            InkWell(
-              child: Icon(
-                Icons.delete,
-                color: theme.rollerCardHeadingColor,
-              ),
-              onTap: () {
-                Provider.of<HistoryManager>(context, listen: false).clearHistory(id);
-              },
-              splashColor: Colors.transparent,
+            Text('History', style: headingStyle),
+            Row(
+              children: [
+                historyManager.getResultsOfID(id).length > 0
+                    ? Text('${historyManager.getResultsOfID(id).length}', style: headingStyle)
+                    : Container(),
+                SizedBox(width: 2),
+                InkWell(
+                  child: Icon(
+                    Icons.delete,
+                    color: theme.rollerCardHeadingColor,
+                  ),
+                  onTap: () {
+                    historyManager.clearHistory(id);
+                  },
+                  splashColor: Colors.transparent,
+                ),
+              ],
             ),
           ],
         ),
@@ -55,10 +75,8 @@ class RollHistory extends StatelessWidget {
             child: Consumer<HistoryManager>(
               builder: (context, historyManager, child) {
                 // get previous results
-                List<String> previousResults = Provider.of<HistoryManager>(context)
-                    .getResultsOfID(id)
-                    .map((result) => '${result.total}')
-                    .toList();
+                List<String> previousResults =
+                    Provider.of<HistoryManager>(context).getResultsOfID(id).map((result) => '${result.total}').toList();
                 if (previousResults.isEmpty) {
                   previousResults = [''];
                 }
@@ -66,7 +84,7 @@ class RollHistory extends StatelessWidget {
                 List<Widget> previousResultWidgets = previousResults.map((result) {
                   return Text(
                     result,
-                    style: historyResultStyle,
+                    style: resultStyle,
                   );
                 }).toList();
                 // put space (SizedBoxes) between

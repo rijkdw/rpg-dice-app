@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/popups/create_new_dice_collection_popup.dart';
 
 class DiceCollectionInfo extends StatelessWidget {
@@ -17,7 +18,7 @@ class DiceCollectionInfo extends StatelessWidget {
     // -------------------------------------------------------------------------------------------------
     var theme = Provider.of<ThemeManager>(context).theme;
     var collectionManager = Provider.of<CollectionManager>(context);
-    var diceCollection = collectionManager.getCollection(id);
+    var diceCollection = collectionManager.getCollection(id) ?? DiceCollection.dummy();
     // -------------------------------------------------------------------------------------------------
     // return
     // -------------------------------------------------------------------------------------------------
