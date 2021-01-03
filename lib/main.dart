@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
 
     var distributionManager = DistributionManager();
     var collectionManager = CollectionManager();
+    var themeManager = ThemeManager();
     // collectionManager.diceCollections.forEach((collection) {
     //   distributionManager.createDistribution(collection);
     // });
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HistoryManager()),
-        ChangeNotifierProvider(create: (_) => ThemeManager()),
         ChangeNotifierProvider(create: (_) => SettingsManager()),
+        ChangeNotifierProvider.value(value: themeManager),
         ChangeNotifierProvider.value(value: collectionManager),
         ChangeNotifierProvider.value(value: distributionManager),
       ],
@@ -35,6 +36,13 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          cardTheme: CardTheme(
+            elevation: 1.0,
+          ),
+          cardColor: themeManager.theme.genericCardColor,
+          appBarTheme: AppBarTheme(
+            elevation: 4,
+          ),
         ),
         home: HomeScreen(),
       ),

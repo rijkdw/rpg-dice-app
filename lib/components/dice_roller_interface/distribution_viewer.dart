@@ -244,7 +244,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
                   ),
                   InkWell(
                     child: Container(
-                      padding: const EdgeInsets.all(4),
+                      // padding: const EdgeInsets.all(4),
                       child: Icon(
                         isHidden ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up_rounded,
                         size: 30,
@@ -277,7 +277,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
             ),
             secondChild: Container(),
             crossFadeState: isHidden ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 300),
           ),
         ],
       ),

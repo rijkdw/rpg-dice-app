@@ -21,7 +21,6 @@ class DiceRollerScreen extends StatelessWidget {
       backgroundColor: theme.genericCanvasColor,
       appBar: AppBar(
         backgroundColor: theme.appbarColor,
-        elevation: 0,
         // title: Text(
         //   // '${_diceCollection.name} (${_diceCollection.expression})',
         //   'Roller',

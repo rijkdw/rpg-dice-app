@@ -51,7 +51,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     // -------------------------------------------------------------------------------------------------
 
     var nameAndExpressionCard = Card(
-      elevation: 0,
       color: theme.genericCardColor,
       child: Container(
         padding: EdgeInsets.all(10),
@@ -62,7 +61,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     );
 
     var rollCard = Card(
-      elevation: 0,
       color: theme.genericCardColor,
       child: Container(
         padding: EdgeInsets.all(10),
@@ -73,7 +71,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     );
 
     var historyCard = Card(
-      elevation: 0,
       color: theme.genericCardColor,
       child: Container(
         padding: EdgeInsets.all(10),
@@ -82,7 +79,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     );
 
     var distributionCard = Card(
-      elevation: 0,
       color: theme.genericCardColor,
       child: Container(
         padding: EdgeInsets.all(10),

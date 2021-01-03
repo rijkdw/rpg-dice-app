@@ -81,25 +81,9 @@ class _BalanceScreenState extends State<BalanceScreen> {
 
     var appbar = AppBar(
       backgroundColor: theme.appbarColor,
-      elevation: 0,
       title: Text(
         'Balance check',
       ),
-      // actions: [
-      //   FlatButton.icon(
-      //     onPressed: () {},
-      //     icon: Icon(
-      //       Icons.help,
-      //       color: theme.appbarTextColor,
-      //     ),
-      //     label: Text(
-      //       'Help',
-      //       style: TextStyle(
-      //         color: theme.appbarTextColor,
-      //       ),
-      //     ),
-      //   )
-      // ],
     );
 
     var headingText =

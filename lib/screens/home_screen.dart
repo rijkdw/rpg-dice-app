@@ -43,7 +43,6 @@ class HomeScreen extends StatelessWidget {
           'RPG Dice',
           style: TextStyle(color: theme.appbarTextColor),
         ),
-        elevation: 0,
         backgroundColor: theme.appbarColor,
         actions: [
           IconButton(
