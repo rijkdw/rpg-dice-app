@@ -39,6 +39,7 @@ class MyAppTheme {
   Color rollerDiscardedColor;
   Color rollerTotalColor;
   Color rollerHistoryResultColor;
+  Color rollerReadyIconColor;
 
   // menu popup
   Color menuPopupBackgroundColor;
@@ -93,6 +94,7 @@ class MyAppTheme {
     this.rollerHistoryResultColor,
     this.rollerTotalColor,
     this.rollerDiscardedColor,
+    this.rollerReadyIconColor,
     // menu popup
     this.menuPopupBackgroundColor,
     this.menuPopupListTileDividerColor,

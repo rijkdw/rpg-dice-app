@@ -7,7 +7,6 @@ import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/popups/create_new_dice_collection_popup.dart';
 
 class DiceCollectionInfo extends StatelessWidget {
-
   int id;
   DiceCollectionInfo({@required this.id});
 
@@ -16,22 +15,26 @@ class DiceCollectionInfo extends StatelessWidget {
     // -------------------------------------------------------------------------------------------------
     // variables
     // -------------------------------------------------------------------------------------------------
+
     var theme = Provider.of<ThemeManager>(context).theme;
     var collectionManager = Provider.of<CollectionManager>(context);
     var diceCollection = collectionManager.getCollection(id) ?? DiceCollection.dummy();
+
     // -------------------------------------------------------------------------------------------------
     // return
     // -------------------------------------------------------------------------------------------------
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Info', style: TextStyle(
-              color: theme.rollerCardHeadingColor,
-              fontSize: 20,
-            )),
+            Text('Info',
+                style: TextStyle(
+                  color: theme.rollerCardHeadingColor,
+                  fontSize: 20,
+                )),
             InkWell(
               child: Container(
                 padding: const EdgeInsets.all(4),
@@ -61,14 +64,23 @@ class DiceCollectionInfo extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('${diceCollection.name}', style: TextStyle(
-              fontSize: 18,
-              color: theme.rollerNameAndExpressionColor,
-            )),
-            Text('${diceCollection.expression}', style: TextStyle(
-              fontSize: 18,
-              color: theme.rollerNameAndExpressionColor,
-            )),
+            Expanded(
+              child: Text(
+                '${diceCollection.name}',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: theme.rollerNameAndExpressionColor,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Text(
+              '${diceCollection.expression}',
+              style: TextStyle(
+                fontSize: 18,
+                color: theme.rollerNameAndExpressionColor,
+              ),
+            ),
           ],
         ),
       ],

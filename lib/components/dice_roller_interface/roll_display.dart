@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
+import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
+import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
@@ -31,7 +33,7 @@ class RollDisplay extends StatelessWidget {
     // functions
     // -------------------------------------------------------------------------------------------------
 
-    Widget die2widget(Die die, {TextStyle baseTextStyle}) {
+    TextSpan die2widget(Die die, {TextStyle baseTextStyle, delim = '  ', inc = true}) {
       if (baseTextStyle == null) {
         baseTextStyle = TextStyle(fontSize: 22, color: theme.rollerTotalColor);
       }
@@ -44,24 +46,35 @@ class RollDisplay extends StatelessWidget {
       if (die.isDiscarded) textStyle = textStyle.copyWith(color: theme.rollerDiscardedColor);
       // strikethrough an overwritten Die
       if (die.isOverwritten) {
-        return RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${die.values.first}',
-                style: textStyle.copyWith(decoration: TextDecoration.lineThrough),
-              ),
-              TextSpan(
-                text: '  ${die.value}',
-                style: textStyle,
-              ),
-            ],
-          ),
+        return TextSpan(
+          children: [
+            TextSpan(
+              text: '${die.values.first}',
+              style: textStyle.copyWith(decoration: TextDecoration.lineThrough),
+            ),
+            TextSpan(
+              text: '$delim${die.value}${inc ? delim : ''}',
+              style: textStyle,
+            ),
+          ],
         );
       }
-      return Text(
-        text,
+      return TextSpan(
+        text: "$text${inc ? delim : ''}",
         style: textStyle,
+      );
+    }
+
+    RichText result2richText(Result result) {
+      var textSpans = <TextSpan>[];
+      for (var i = 0; i < result.die.length; i++) {
+        textSpans.add(die2widget(result.die[i], inc: i != result.die.length - 1));
+      }
+      return RichText(
+        text: TextSpan(
+          children: textSpans,
+        ),
+        textAlign: TextAlign.center,
       );
     }
 
@@ -81,9 +94,10 @@ class RollDisplay extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: lastResult != null
+              // has been rolls?  show the last one
               ? [
                   // the current result
-                  SizedBox(
+                  Container(
                     height: 80,
                     child: Text(
                       '${lastResult.total}',
@@ -93,18 +107,27 @@ class RollDisplay extends StatelessWidget {
                   // SizedBox(height: 12),
 
                   // the constituent rolls
-                  SizedBox(
-                    height: 20,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: intersperse(
-                        lastResult.die.map(die2widget).toList(),
-                        () => SizedBox(width: 10),
-                      ),
-                    ),
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   children: intersperse(
+                  //     lastResult.die.map(die2widget).toList(),
+                  //     () => SizedBox(width: 10),
+                  //   ),
+                  // ),
+                  // RichText(
+                  //   text: TextSpan(
+                  //     children: List<TextSpan>.from(joinLists(
+                  //       lastResult.die.map(die2widget).toList(),
+                  //     )),
+                  //   ),
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  // SizedBox(height: 12),
+                  Container(
+                    child: result2richText(lastResult),
                   ),
-                  SizedBox(height: 12),
                 ]
+              // no rolls yet?  return the d20 logo
               : [
                   Container(
                     height: 112,
@@ -112,7 +135,7 @@ class RollDisplay extends StatelessWidget {
                     child: FaIcon(
                       FontAwesomeIcons.diceD20,
                       size: 80,
-                      color: theme.genericPrimaryTextColor,
+                      color: theme.rollerReadyIconColor,
                     ),
                   ),
                 ],

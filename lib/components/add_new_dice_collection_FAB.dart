@@ -18,8 +18,6 @@ class AddNewDiceCollectionFAB extends StatelessWidget {
         // );
       },
       child: Icon(Icons.add, size: 35),
-      elevation: 0,
-      highlightElevation: 0, // no sudden elevation when tapped
     );
 
     return FloatingActionButton.extended(

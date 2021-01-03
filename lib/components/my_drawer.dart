@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
-import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/screens/balance_screen.dart';
+
+import 'package:rpg_dice/constants.dart' as constants;
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -74,7 +75,7 @@ class MyDrawer extends StatelessWidget {
         canvasColor: theme.drawerBodyColor,
       ),
       child: Drawer(
-        elevation: 0,
+        elevation: constants.DRAWER_ELEVATION,
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [

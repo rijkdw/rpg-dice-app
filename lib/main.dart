@@ -7,6 +7,8 @@ import 'package:rpg_dice/managers/settings_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/screens/home_screen.dart';
 
+import 'package:rpg_dice/constants.dart' as constants;
+
 void main() {
   runApp(MyApp());
 }
@@ -32,16 +34,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: distributionManager),
       ],
       child: MaterialApp(
-        title: "RPG Dice",
+        title: 'RPG Dice',
         theme: ThemeData(
           primarySwatch: Colors.red,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardTheme: CardTheme(
-            elevation: 1.0,
+            elevation: constants.CARD_ELEVATION,
           ),
           cardColor: themeManager.theme.genericCardColor,
           appBarTheme: AppBarTheme(
-            elevation: 4,
+            elevation: constants.APPBAR_ELEVATION,
+          ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            elevation: constants.FAB_ELEVATION,
+            focusElevation: constants.FAB_ELEVATION,
           ),
         ),
         home: HomeScreen(),

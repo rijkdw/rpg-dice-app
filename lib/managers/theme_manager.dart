@@ -41,6 +41,7 @@ class ThemeManager extends ChangeNotifier {
       rollerTotalColor: Colors.black,
       rollerCardHeadingColor: ColorPalette.darkGray,
       rollerDiscardedColor: ColorPalette.gray160,
+      rollerReadyIconColor: Colors.red,
       // menu popup
       menuPopupListTileTextColor: Colors.black,
       menuPopupListTileIconColor: Colors.red,
@@ -90,6 +91,7 @@ class ThemeManager extends ChangeNotifier {
       rollerTotalColor: Colors.white,
       rollerHistoryResultColor: ColorPalette.white225,
       rollerDiscardedColor: ColorPalette.lightGray,
+      rollerReadyIconColor: Colors.red,
       // menu popup
       menuPopupBackgroundColor: ColorPalette.medGray,
       menuPopupListTileDividerColor: ColorPalette.white180,

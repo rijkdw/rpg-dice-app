@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'dart:math';
 
-// BOOLEANS
+// -------------------------------------------------------------------------------------------------
+// booleans
+// -------------------------------------------------------------------------------------------------
 
 bool isNumeric(String s) {
   if (s == null) return false;
@@ -13,14 +15,18 @@ bool isDigit(String s) => isNumeric(s) && s.length == 1;
 
 bool isSpace(String s) => s.trim().isEmpty;
 
-// RANDOM
+// -------------------------------------------------------------------------------------------------
+// random
+// -------------------------------------------------------------------------------------------------
 
 Random _random = Random();
 
 // [min, max]
 int randInRange(int min, int max) => min + _random.nextInt(max + 1 - min);
 
-// STRINGS
+// -------------------------------------------------------------------------------------------------
+// Strings
+// -------------------------------------------------------------------------------------------------
 
 String join(List<dynamic> list, String delim) {
   var output = '';
@@ -78,7 +84,9 @@ String prettify(dynamic input) {
   return output;
 }
 
-// LISTS
+// -------------------------------------------------------------------------------------------------
+// Lists
+// -------------------------------------------------------------------------------------------------
 
 bool listEquality(List<dynamic> listA, List<dynamic> listB) {
   var eq = ListEquality().equals;
