@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
       drawerEdgeDragWidth: double.infinity,
       appBar: AppBar(
         title: Text(
-          "RPG Dice",
+          'RPG Dice',
           style: TextStyle(color: theme.appbarTextColor),
         ),
         elevation: 0,

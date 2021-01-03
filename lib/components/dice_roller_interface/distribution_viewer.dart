@@ -30,6 +30,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
   Map<int, int> map;
   double maxY;
   bool isShowingGraph = true;
+  bool isHidden = false;
 
   @override
   void initState() {
@@ -125,7 +126,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
                 ),
               ),
               Text(
-                'Count /${widget.numRepeats}',
+                '# /${widget.numRepeats}',
                 style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.right,
               ),
@@ -223,26 +224,60 @@ class _DistributionViewerState extends State<DistributionViewer> {
                       ),
                     )
                   : Container(),
-              InkWell(
-                child: Icon(
-                  Icons.refresh,
-                  color: theme.rollerCardHeadingColor,
-                ),
-                onTap: () {
-                  setState(() {
-                    populateMap();
-                  });
-                },
-                splashColor: Colors.transparent,
+              Row(
+                children: [
+                  InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.refresh,
+                        color: theme.rollerCardHeadingColor,
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        populateMap();
+                      });
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        isHidden ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up_rounded,
+                        size: 30,
+                        color: theme.rollerCardHeadingColor,
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        isHidden = !isHidden;
+                      });
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                ],
               ),
             ],
           ),
-          SizedBox(height: 10),
-          InkWell(
-            onTap: invertView,
-            focusColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            child: isShowingGraph ? graphView : listView,
+          AnimatedCrossFade(
+            firstChild: Column(
+              children: [
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: invertView,
+                  focusColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  child: isShowingGraph ? graphView : listView,
+                ),
+              ],
+            ),
+            secondChild: Container(),
+            crossFadeState: isHidden ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            duration: Duration(milliseconds: 500),
           ),
         ],
       ),

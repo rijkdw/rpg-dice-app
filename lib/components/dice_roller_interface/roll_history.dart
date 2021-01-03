@@ -54,14 +54,18 @@ class RollHistory extends StatelessWidget {
                     : Container(),
                 SizedBox(width: 2),
                 InkWell(
-                  child: Icon(
-                    Icons.delete,
-                    color: theme.rollerCardHeadingColor,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(
+                      Icons.delete,
+                      color: theme.rollerCardHeadingColor,
+                    ),
                   ),
                   onTap: () {
                     historyManager.clearHistory(id);
                   },
                   splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                 ),
               ],
             ),

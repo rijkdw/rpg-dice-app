@@ -33,10 +33,13 @@ class DiceCollectionInfo extends StatelessWidget {
               fontSize: 20,
             )),
             InkWell(
-              child: Icon(
-                FontAwesomeIcons.wrench,
-                size: 20,
-                color: theme.rollerCardHeadingColor,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                child: Icon(
+                  FontAwesomeIcons.wrench,
+                  size: 20,
+                  color: theme.rollerCardHeadingColor,
+                ),
               ),
               onTap: () {
                 // open the other dialog
@@ -50,6 +53,7 @@ class DiceCollectionInfo extends StatelessWidget {
                 );
               },
               splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
             ),
           ],
         ),
