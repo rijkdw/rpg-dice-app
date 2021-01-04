@@ -8,6 +8,7 @@ import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/dice_engine/state.dart' as state;
 import 'package:rpg_dice/utils.dart' as utils;
+import 'package:rpg_dice/constants.dart' as constants;
 
 class BalanceScreen extends StatefulWidget {
   @override
@@ -106,7 +107,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             ),
             SizedBox(height: 15),
             RaisedButton(
-              elevation: 0,
+              // elevation: 0,
               child: Container(
                 width: 100,
                 alignment: Alignment.center,
@@ -174,7 +175,7 @@ class _CountViewer extends StatelessWidget {
 
     return Card(
       color: theme.genericCardColor,
-      elevation: 0,
+      elevation: constants.CARD_ELEVATION,
       child: Container(
         padding: const EdgeInsets.fromLTRB(4, 16, 4, 8),
         width: double.infinity,

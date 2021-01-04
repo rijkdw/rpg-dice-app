@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_roller_interface/distribution_viewer.dart';
 import 'package:rpg_dice/components/dice_roller_interface/info_widget.dart';
+import 'package:rpg_dice/components/dice_roller_interface/interface_card.dart';
 import 'package:rpg_dice/components/dice_roller_interface/roll_display.dart';
 import 'package:rpg_dice/components/no_glow_scroll_behavior.dart';
 import 'package:rpg_dice/components/dice_roller_interface/roll_history.dart';
@@ -37,7 +38,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
 
   @override
   Widget build(BuildContext context) {
-
     // -------------------------------------------------------------------------------------------------
     // variables
     // -------------------------------------------------------------------------------------------------
@@ -78,14 +78,19 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
       ),
     );
 
+    var historyCard2 = InterfaceCard(
+      child: RollHistory(widget._diceCollectionId),
+      title: 'History 2',
+      expandable: true,
+    );
+
     var distributionCard = Card(
       color: theme.genericCardColor,
       child: Container(
         padding: EdgeInsets.all(10),
         child: DistributionViewer(
           expression: (diceCollection ?? DiceCollection.dummy()).expression,
-          numRepeats: 1000,
-          title: 'Distribution',
+          numRepeats: 5000,
         ),
       ),
     );
@@ -104,6 +109,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
               nameAndExpressionCard,
               rollCard,
               historyCard,
+              // historyCard2,
               distributionCard,
             ], () => SizedBox(height: 10)),
           ),

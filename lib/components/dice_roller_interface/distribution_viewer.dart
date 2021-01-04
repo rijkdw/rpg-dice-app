@@ -11,13 +11,13 @@ class DistributionViewer extends StatefulWidget {
   // -------------------------------------------------------------------------------------------------
   // attributes
   // -------------------------------------------------------------------------------------------------
-  String expression, title;
+  String expression;
   int numRepeats;
 
   // -------------------------------------------------------------------------------------------------
   // constructor
   // -------------------------------------------------------------------------------------------------
-  DistributionViewer({this.expression, this.numRepeats, this.title = 'Dice Count'});
+  DistributionViewer({this.expression, this.numRepeats});
 
   @override
   _DistributionViewerState createState() => _DistributionViewerState();
@@ -215,15 +215,13 @@ class _DistributionViewerState extends State<DistributionViewer> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              widget.title != null
-                  ? Text(
-                      'Distribution',
-                      style: TextStyle(
-                        color: theme.rollerCardHeadingColor,
-                        fontSize: 20,
-                      ),
-                    )
-                  : Container(),
+              Text(
+                'Distribution',
+                style: TextStyle(
+                  color: theme.rollerCardHeadingColor,
+                  fontSize: 20,
+                ),
+              ),
               Row(
                 children: [
                   InkWell(
