@@ -18,6 +18,7 @@ class MyAppTheme {
   Color drawerBodyColor;
   Color drawerBodyTextColor;
   Color drawerBodyIconColor;
+  Color drawerDividerColor;
 
   // appbar
   Color appbarColor;
@@ -77,6 +78,7 @@ class MyAppTheme {
     this.drawerBodyColor,
     this.drawerBodyTextColor,
     this.drawerBodyIconColor,
+    this.drawerDividerColor,
     // appbar
     this.appbarColor,
     this.appbarTextColor,

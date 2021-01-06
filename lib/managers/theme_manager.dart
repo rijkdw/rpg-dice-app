@@ -24,6 +24,7 @@ class ThemeManager extends ChangeNotifier {
       drawerBodyColor: Colors.white,
       drawerBodyTextColor: Colors.black,
       drawerBodyIconColor: Colors.red,
+      drawerDividerColor: ColorPalette.gray160,
       // appbar
       appbarColor: Colors.red,
       appbarTextColor: Colors.white,
@@ -74,6 +75,7 @@ class ThemeManager extends ChangeNotifier {
       drawerBodyColor: ColorPalette.darkGray,
       drawerBodyTextColor: Colors.white,
       drawerBodyIconColor: Colors.red,
+      drawerDividerColor: ColorPalette.gray160,
       // appbar
       appbarColor: ColorPalette.medGray,
       appbarTextColor: Colors.white,

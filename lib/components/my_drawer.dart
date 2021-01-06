@@ -28,7 +28,7 @@ class MyDrawer extends StatelessWidget {
           ),
           SizedBox(width: 25),
           Text(
-            "RPG Dice",
+            'RPG Dice',
             style: TextStyle(
               letterSpacing: 1.5,
               color: theme.drawerHeaderTextColor,
@@ -40,15 +40,19 @@ class MyDrawer extends StatelessWidget {
     );
 
     var settingsMenuItem = _MenuListTile(
-      text: "Settings",
+      text: 'Settings',
       iconData: Icons.settings,
-      onTap: () {},
+      onTap: () {}, // TODO
     );
 
-    // TODO help menu item
+    var helpMenuItem = _MenuListTile(
+      text: 'Help',
+      iconData: Icons.help,
+      onTap: () {}, // TODO
+    );
 
     var balanceMenuItem = _MenuListTile(
-      text: "Balance",
+      text: 'Balance',
       iconData: Icons.zoom_in,
       onTap: () {
         // Navigator.of(context).pop(); // close the drawer
@@ -59,9 +63,15 @@ class MyDrawer extends StatelessWidget {
     );
 
     var donateMenuItem = _MenuListTile(
-      text: "Donate",
+      text: 'Donate',
       iconData: Icons.monetization_on,
-      onTap: () {},
+      onTap: () {}, // TODO
+    );
+
+    var bugReportMenuItem = _MenuListTile(
+      text: 'Report bug',
+      iconData: Icons.bug_report,
+      onTap: () {}, // TODO
     );
 
     var darkModeMenuItem = _MenuListTile(
@@ -81,12 +91,26 @@ class MyDrawer extends StatelessWidget {
           children: [
             drawerHeader,
             settingsMenuItem,
-            balanceMenuItem,
-            donateMenuItem,
             darkModeMenuItem,
+            _Divider(),
+            helpMenuItem,
+            balanceMenuItem,
+            _Divider(),
+            donateMenuItem,
+            bugReportMenuItem,
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Divider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeManager>(context).theme;
+    return Divider(
+      color: theme.drawerDividerColor,
     );
   }
 }

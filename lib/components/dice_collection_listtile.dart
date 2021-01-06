@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/popups/dice_collection_menu_popup.dart';
-import 'package:rpg_dice/popups/dice_roller_popup.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
-import 'package:rpg_dice/objects/my_app_theme.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/screens/dice_roller_screen.dart';
 

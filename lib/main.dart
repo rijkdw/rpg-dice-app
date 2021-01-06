@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/distribution_manager.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
+import 'package:rpg_dice/managers/preferences_manager.dart';
 import 'package:rpg_dice/managers/settings_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/screens/home_screen.dart';
@@ -18,20 +19,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var distributionManager = DistributionManager();
-    var collectionManager = CollectionManager();
     var themeManager = ThemeManager();
-    // collectionManager.diceCollections.forEach((collection) {
-    //   distributionManager.createDistribution(collection);
-    // });
 
     return MultiProvider(
       providers: [
+        // ready-to-use values:
+        ChangeNotifierProvider.value(value: themeManager),
+        // construct here:
         ChangeNotifierProvider(create: (_) => HistoryManager()),
         ChangeNotifierProvider(create: (_) => SettingsManager()),
-        ChangeNotifierProvider.value(value: themeManager),
-        ChangeNotifierProvider.value(value: collectionManager),
-        ChangeNotifierProvider.value(value: distributionManager),
+        ChangeNotifierProvider(create: (_) => DistributionManager()),
+        ChangeNotifierProvider(create: (_) => CollectionManager()),
+        Provider(create: (_) => PreferencesManager()),
       ],
       child: MaterialApp(
         title: 'RPG Dice',

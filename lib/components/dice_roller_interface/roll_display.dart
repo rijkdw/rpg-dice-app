@@ -124,7 +124,7 @@ class RollDisplay extends StatelessWidget {
             ),
           ),
           crossFadeState: lastResult == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 100),
         ),
       ),
     );

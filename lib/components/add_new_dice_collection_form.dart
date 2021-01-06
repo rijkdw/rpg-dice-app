@@ -119,8 +119,8 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
             elevation: 0,
             color: theme.newFormFieldButtonColor,
             onPressed: () {
+              // if valid contents, accept
               if (_formKey.currentState.validate()) {
-                // if valid contents, accept
                 // are we creating or editing?
                 if (widget.diceCollection != null) {
                   // we are editing
@@ -130,7 +130,10 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
                     id: widget.diceCollection.id,
                   );
                   collectionManager.editCollection(widget.diceCollection.id, diceCollection);
-                  Provider.of<HistoryManager>(context, listen: false).clearHistory(widget.diceCollection.id);
+                  // did the expression change?  if so, delete the history as it is now false
+                  if (widget.diceCollection.expression != diceCollection.expression) {
+                    Provider.of<HistoryManager>(context, listen: false).clearHistory(widget.diceCollection.id);
+                  }
                 } else {
                   // we are creating
                   DiceCollection diceCollection = DiceCollection(

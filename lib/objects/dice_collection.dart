@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
-import 'package:rpg_dice/objects/dice_result.dart';
 
 class DiceCollection {
+
   // -------------------------------------------------------------------------------------------------
   // attributes
   // -------------------------------------------------------------------------------------------------
@@ -47,17 +47,26 @@ class DiceCollection {
     return result;
   }
 
-  // GETTERS
+  // -------------------------------------------------------------------------------------------------
+  // getters
+  // -------------------------------------------------------------------------------------------------
+
   String get name => this._name;
   String get expression => this._expression;
   int get id => this._id;
 
-  // SETTERS
+  // -------------------------------------------------------------------------------------------------
+  // setters
+  // -------------------------------------------------------------------------------------------------
+
   set name(String newName) => this._name = newName;
   set expression(String newDice) => this._expression = newDice;
   set id(int newID) => this._id = newID;
 
+  // -------------------------------------------------------------------------------------------------
   // JSON
+  // -------------------------------------------------------------------------------------------------
+
   factory DiceCollection.fromJson(Map<String, dynamic> jsonMap) {
     return DiceCollection(
       name: jsonMap["name"],
