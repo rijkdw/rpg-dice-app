@@ -115,6 +115,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
               rollCard,
               historyCard,
               distributionCard,
+              SizedBox(height: 60),
             ], () => SizedBox(height: 10)),
           ),
         ),

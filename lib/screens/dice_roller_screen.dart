@@ -17,18 +17,16 @@ class DiceRollerScreen extends StatefulWidget {
 }
 
 class _DiceRollerScreenState extends State<DiceRollerScreen> {
-  
   // -------------------------------------------------------------------------------------------------
   // attributes
   // -------------------------------------------------------------------------------------------------
   var pageViewController = ScrollController();
-  var showingNavButton = true;
-  
+  var showingNavButton = false;
+
   @override
   void initState() {
     pageViewController.addListener(() {
       var topThreshold = 50;
-      print(pageViewController.offset);
       if (pageViewController.offset > topThreshold) {
         setState(() {
           showingNavButton = true;
@@ -43,28 +41,24 @@ class _DiceRollerScreenState extends State<DiceRollerScreen> {
   }
 
   // -------------------------------------------------------------------------------------------------
-  // widgets
+  // build
   // -------------------------------------------------------------------------------------------------
-
-  var backToTopFAB = FloatingActionButton(
-    onPressed: () {},
-    child: Icon(Icons.arrow_upward_rounded),
-  );
 
   @override
   Widget build(BuildContext context) {
-
     var theme = Provider.of<ThemeManager>(context).theme;
-
     return Scaffold(
       backgroundColor: theme.genericCanvasColor,
-      floatingActionButton: showingNavButton ? backToTopFAB : null,
+      floatingActionButton: showingNavButton
+          ? FloatingActionButton(
+              onPressed: () {
+                pageViewController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.decelerate);
+              },
+              child: Icon(Icons.arrow_upward_rounded),
+            )
+          : null,
       appBar: AppBar(
         backgroundColor: theme.appbarColor,
-        // title: Text(
-        //   // '${_diceCollection.name} (${_diceCollection.expression})',
-        //   'Roller',
-        // ),
       ),
       body: DiceRollerInterface(
         diceCollectionId: widget._diceCollection.id,
