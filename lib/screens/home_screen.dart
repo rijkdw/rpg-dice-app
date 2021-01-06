@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: MyDrawer(),
       backgroundColor: theme.listViewBackgroundColor,
       body: Container(
-        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+        padding: showingListView ? EdgeInsets.fromLTRB(4, 0, 0, 0) : EdgeInsets.all(0),
         child: showingListView ? DiceCollectionListView() : DiceCollectionGridView(),
       ),
       floatingActionButton: AddNewDiceCollectionFAB(),

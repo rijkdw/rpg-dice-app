@@ -14,9 +14,11 @@ import 'package:rpg_dice/utils.dart';
 // ignore: must_be_immutable
 class DiceRollerInterface extends StatefulWidget {
   int _diceCollectionId;
+  ScrollController _pageViewController;
 
-  DiceRollerInterface({int diceCollectionId}) {
+  DiceRollerInterface({int diceCollectionId, @required ScrollController pageViewController}) {
     this._diceCollectionId = diceCollectionId;
+    this._pageViewController = pageViewController;
   }
 
   @override
@@ -28,7 +30,9 @@ class DiceRollerInterface extends StatefulWidget {
 // =================================================================================================
 
 class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
-  // ATTRIBUTES
+  // -------------------------------------------------------------------------------------------------
+  // attributes
+  // -------------------------------------------------------------------------------------------------
   var historyScrollController = ScrollController();
 
   @override
@@ -90,7 +94,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
         padding: EdgeInsets.all(10),
         child: DistributionViewer(
           expression: (diceCollection ?? DiceCollection.dummy()).expression,
-          numRepeats: 5000,
+          numRepeats: 1000,
         ),
       ),
     );
@@ -100,6 +104,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
     return ScrollConfiguration(
       behavior: NoGlowScrollBehavior(),
       child: SingleChildScrollView(
+        controller: widget._pageViewController,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           child: Column(
@@ -109,7 +114,6 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
               nameAndExpressionCard,
               rollCard,
               historyCard,
-              // historyCard2,
               distributionCard,
             ], () => SizedBox(height: 10)),
           ),

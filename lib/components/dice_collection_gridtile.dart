@@ -68,24 +68,27 @@ class DiceCollectionGridTile extends StatelessWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            leadingIcon,
-            SizedBox(height: 3),
-            Text(
-              diceCollection.name,
-              style: titleTextStyle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 3),
-            Text(
-              diceCollection.expression,
-              style: subtitleTextStyle,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              leadingIcon,
+              SizedBox(height: 3),
+              Text(
+                diceCollection.name,
+                style: titleTextStyle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 3),
+              Text(
+                diceCollection.expression,
+                style: subtitleTextStyle,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/components/dice_collection_gridtile.dart';
@@ -22,15 +23,18 @@ class DiceCollectionGridView extends StatelessWidget {
           data: ThemeData(
             highlightColor: theme.listViewScrollBarColor,
           ),
-          child: Scrollbar(
-            controller: viewController,
-            isAlwaysShown: true,
-            child: ScrollConfiguration(
-              behavior: NoGlowScrollBehavior(),
-              child: GridView.count(
-                controller: viewController,
-                crossAxisCount: 3,
-                children: gridTiles,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Scrollbar(
+              controller: viewController,
+              isAlwaysShown: true,
+              child: ScrollConfiguration(
+                behavior: NoGlowScrollBehavior(),
+                child: GridView.count(
+                  controller: viewController,
+                  crossAxisCount: 3,
+                  children: gridTiles,
+                ),
               ),
             ),
           ),

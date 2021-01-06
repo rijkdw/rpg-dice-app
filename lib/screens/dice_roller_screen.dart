@@ -5,12 +5,51 @@ import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 
 // ignore: must_be_immutable
-class DiceRollerScreen extends StatelessWidget {
+class DiceRollerScreen extends StatefulWidget {
   DiceCollection _diceCollection;
 
   DiceRollerScreen({DiceCollection diceCollection}) {
     this._diceCollection = diceCollection;
   }
+
+  @override
+  _DiceRollerScreenState createState() => _DiceRollerScreenState();
+}
+
+class _DiceRollerScreenState extends State<DiceRollerScreen> {
+  
+  // -------------------------------------------------------------------------------------------------
+  // attributes
+  // -------------------------------------------------------------------------------------------------
+  var pageViewController = ScrollController();
+  var showingNavButton = true;
+  
+  @override
+  void initState() {
+    pageViewController.addListener(() {
+      var topThreshold = 50;
+      print(pageViewController.offset);
+      if (pageViewController.offset > topThreshold) {
+        setState(() {
+          showingNavButton = true;
+        });
+      } else {
+        setState(() {
+          showingNavButton = false;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  // -------------------------------------------------------------------------------------------------
+  // widgets
+  // -------------------------------------------------------------------------------------------------
+
+  var backToTopFAB = FloatingActionButton(
+    onPressed: () {},
+    child: Icon(Icons.arrow_upward_rounded),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +58,7 @@ class DiceRollerScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: theme.genericCanvasColor,
+      floatingActionButton: showingNavButton ? backToTopFAB : null,
       appBar: AppBar(
         backgroundColor: theme.appbarColor,
         // title: Text(
@@ -27,9 +67,9 @@ class DiceRollerScreen extends StatelessWidget {
         // ),
       ),
       body: DiceRollerInterface(
-        diceCollectionId: _diceCollection.id,
+        diceCollectionId: widget._diceCollection.id,
+        pageViewController: pageViewController,
       ),
     );
   }
-
 }
