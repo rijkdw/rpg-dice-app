@@ -19,13 +19,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // make the ThemeManager here so that it is accessible by the return method
     var themeManager = ThemeManager();
 
     return MultiProvider(
       providers: [
-        // ready-to-use values:
+        // ready-to-use managers
         ChangeNotifierProvider.value(value: themeManager),
-        // construct here:
+        // new managers constructed here
         ChangeNotifierProvider(create: (_) => HistoryManager()),
         ChangeNotifierProvider(create: (_) => SettingsManager()),
         ChangeNotifierProvider(create: (_) => DistributionManager()),

@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rpg_dice/popups/create_new_dice_collection_popup.dart';
 
-class AddNewDiceCollectionFAB extends StatelessWidget {
+class HomeScreenFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        showDialog(
-          context: context,
-          builder: (_) => CreateNewDiceCollectionPopup()
-        );
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (_) => CreateNewDiceCollectionScreen(),
-        //   ),
-        // );
+        showDialog(context: context, builder: (_) => CreateNewDiceCollectionPopup());
       },
       child: Icon(Icons.add, size: 35),
     );

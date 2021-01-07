@@ -13,15 +13,17 @@ class DiceCollection {
   String _name;
   String _expression;
   int _id;
+  int _categoryID;
 
   // -------------------------------------------------------------------------------------------------
   // constructors
   // -------------------------------------------------------------------------------------------------
 
-  DiceCollection({String name, String expression, int id=1}) {
+  DiceCollection({String name, String expression, int id=1, int categoryID=1}) {
     this._name = name;
     this._expression = expression;
     this._id = id;
+    this._categoryID = categoryID;
   }
 
   // -------------------------------------------------------------------------------------------------
@@ -31,7 +33,8 @@ class DiceCollection {
   factory DiceCollection.dummy() {
     return DiceCollection(
       expression: '1d6',
-      name: 'aaaaa'
+      name: 'aaaaa',
+      categoryID: 1,
     );
   }
 
@@ -54,6 +57,7 @@ class DiceCollection {
   String get name => this._name;
   String get expression => this._expression;
   int get id => this._id;
+  int get categoryID => this._categoryID;
 
   // -------------------------------------------------------------------------------------------------
   // setters
@@ -62,6 +66,7 @@ class DiceCollection {
   set name(String newName) => this._name = newName;
   set expression(String newDice) => this._expression = newDice;
   set id(int newID) => this._id = newID;
+  set categoryID(int newID) => this._categoryID = newID;
 
   // -------------------------------------------------------------------------------------------------
   // JSON
@@ -69,17 +74,19 @@ class DiceCollection {
 
   factory DiceCollection.fromJson(Map<String, dynamic> jsonMap) {
     return DiceCollection(
-      name: jsonMap["name"],
-      expression: jsonMap["expression"],
-      id: jsonMap["id"],
+      name: jsonMap['name'],
+      expression: jsonMap['expression'],
+      id: jsonMap['id'],
+      categoryID: jsonMap['categoryID']
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "name": this._name,
-      "expression": this._expression,
-      "id": this._id,
+      'name': this._name,
+      'expression': this._expression,
+      'id': this._id,
+      'categoryID': this._categoryID,
     };
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rpg_dice/components/add_new_dice_collection_FAB.dart';
-import 'package:rpg_dice/components/dice_collection_gridview.dart';
-import 'package:rpg_dice/components/dice_collection_listview.dart';
+import 'package:rpg_dice/components/home_screen/home_screen_fab.dart';
+import 'package:rpg_dice/components/home_screen/dice_collection_gridview.dart';
+import 'package:rpg_dice/components/home_screen/dice_collection_listview.dart';
 import 'package:rpg_dice/components/my_drawer.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/preferences_manager.dart';
@@ -63,6 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
           expression: '30d6',
           name: 'alpha bravo charlie delta echo foxtrot golf hotel igloo julia kilo lima mike',
           id: 4,
+        ),
+        DiceCollection(
+          expression: '(1, 2, 3)kh2',
+          name: 'supercalifragilisticexpialidocious',
+          id: 5,
         )
       ];
       dummyCollections.forEach((coll) => collectionManager.addToCollections(coll));
@@ -93,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: showingListView ? EdgeInsets.fromLTRB(4, 0, 0, 0) : EdgeInsets.all(0),
         child: showingListView ? DiceCollectionListView() : DiceCollectionGridView(),
       ),
-      floatingActionButton: AddNewDiceCollectionFAB(),
+      floatingActionButton: HomeScreenFAB(),
     );
   }
 }

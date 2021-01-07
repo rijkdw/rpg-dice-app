@@ -97,6 +97,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
     setState(() {
       distributionFuture = populateMap(widget.diceCollection.expression, widget.numRepeats);
     });
+    // give the DistributionManager the new distribution
     var distributionManager = Provider.of<DistributionManager>(context, listen: false);
     distributionFuture.then((value) => distributionManager.setDistribution(widget.diceCollection.id, value));
   }
@@ -125,7 +126,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
           var map = Map<int, int>.from(snapshot.data);
           var maxY = getMaxYFromMap(map);
 
-          // Build a row in the table.
+          // build a row in the table
           TableRow _buildRow(int value) {
             return TableRow(
               children: [
@@ -170,7 +171,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
           }
 
           if (isShowingGraph) {
-            // Make a graph view.
+            // make a graph view
             theView = Container(
               width: double.infinity,
               child: BarChart(
@@ -210,13 +211,13 @@ class _DistributionViewerState extends State<DistributionViewer> {
               ),
             );
           } else {
-            // Make a list view.
+            // make a list view
             theView = Container(
               width: double.infinity,
               child: Table(
                 defaultColumnWidth: FlexColumnWidth(),
                 children: [
-                  // Make a header for the table: value | #/count | percentage
+                  // make a header for the table: value | #/count | percentage
                   TableRow(
                     children: [
                       Container(
@@ -247,7 +248,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
             );
           }
         } else {
-          // If no data to show, just return a circular progress thing.
+          // if no data to show, just return a circular progress thing
           theView = Container(
             width: double.infinity,
             child: Center(
