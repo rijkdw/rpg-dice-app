@@ -43,3 +43,8 @@ String reverseString(String input) {
 }
 
 String toSentenceCase(String input) => input[0].toUpperCase() + input.substring(1).toLowerCase();
+
+dynamic randomFromList(List list) {
+  var random = Random();
+  return list[random.nextInt(list.length)];
+}

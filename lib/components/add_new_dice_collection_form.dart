@@ -9,6 +9,7 @@ import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/objects/my_app_theme.dart';
+import 'package:rpg_dice/utils.dart';
 
 class AddNewDiceCollectionForm extends StatefulWidget {
   DiceCollection diceCollection;
@@ -20,10 +21,23 @@ class AddNewDiceCollectionForm extends StatefulWidget {
 }
 
 class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
+  // -------------------------------------------------------------------------------------------------
+  // attributes
+  // -------------------------------------------------------------------------------------------------
+
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController expressionController = TextEditingController();
+
+  // combinations of hint-texts that can appear within the form
+  var hintTexts = {
+    'fireball': {'name': 'Fireball', 'expression': '8d6'},
+    'stat': {'name': 'Ability score', 'expression': '4d6kh3'},
+    'advantage': {'name': 'Advantage', 'expression': '2d20kh1'},
+    'disadvantage': {'name': 'Disadvantage', 'expression': '2d20ph1'},
+  };
+  String hintTextKey;
 
   @override
   void initState() {
@@ -31,6 +45,8 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
       nameController.text = widget.diceCollection.name;
       expressionController.text = widget.diceCollection.expression;
     }
+    // choose a hint text
+    hintTextKey = randomFromList(hintTexts.keys.toList());
     super.initState();
   }
 
@@ -77,7 +93,7 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
               SizedBox(height: 10),
               // the dice collection's name
               TextFormField(
-                decoration: inputDecoration.copyWith(hintText: 'Hand name'),
+                decoration: inputDecoration.copyWith(hintText: "Name (\"${hintTexts[hintTextKey]['name']}\")"),
                 controller: nameController,
                 textCapitalization: TextCapitalization.sentences,
                 style: formTextStyle,
@@ -88,7 +104,7 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
               ),
               // the dice collection's expression
               TextFormField(
-                decoration: inputDecoration.copyWith(hintText: 'Dice expression'),
+                decoration: inputDecoration.copyWith(hintText: "Expression (\"${hintTexts[hintTextKey]['expression']}\")"),
                 controller: expressionController,
                 style: formTextStyle,
                 validator: (value) {

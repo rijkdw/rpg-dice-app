@@ -147,7 +147,7 @@ class CollectionManager extends ChangeNotifier {
     // collections
     prefs.setString(_COLLECTIONS_KEY, json.encode(this.diceCollections.map((dc) => dc.toJson()).toList()));
     // categories
-    prefs.setString(_CATEGORY_NAMES_KEY, json.encode(_id2categoryNameMap));
+    // prefs.setString(_CATEGORY_NAMES_KEY, json.encode(_id2categoryNameMap)); // TODO
     print('CollectionManager._storeInLocal() has finished.');
   }
 

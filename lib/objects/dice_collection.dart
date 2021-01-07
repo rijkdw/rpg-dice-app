@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
+
+enum DiceCollectionIcon {
+  D20,
+  DICE,
+  DRAGON,
+  FIRE,
+  WIZARD,
+  HEART,
+  FIRE_IN_HAND,
+}
+
+var diceCollectionIcon2IconDataMap = {
+  DiceCollectionIcon.D20: FontAwesomeIcons.diceD20,
+  DiceCollectionIcon.DICE: FontAwesomeIcons.dice,
+  DiceCollectionIcon.DRAGON: FontAwesomeIcons.dragon,
+  DiceCollectionIcon.FIRE: FontAwesomeIcons.fire,
+  DiceCollectionIcon.WIZARD: FontAwesomeIcons.hatWizard,
+  DiceCollectionIcon.HEART: FontAwesomeIcons.heart,
+  DiceCollectionIcon.FIRE_IN_HAND: FontAwesomeIcons.handHoldingWater
+};
 
 class DiceCollection {
 

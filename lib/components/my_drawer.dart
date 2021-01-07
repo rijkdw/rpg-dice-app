@@ -5,6 +5,7 @@ import 'package:rpg_dice/managers/theme_manager.dart';
 import 'package:rpg_dice/screens/balance_screen.dart';
 
 import 'package:rpg_dice/constants.dart' as constants;
+import 'package:rpg_dice/screens/help_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -48,7 +49,11 @@ class MyDrawer extends StatelessWidget {
     var helpMenuItem = _MenuListTile(
       text: 'Help',
       iconData: Icons.help,
-      onTap: () {}, // TODO
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => HelpScreen(),
+        ));
+      },
     );
 
     var balanceMenuItem = _MenuListTile(

@@ -67,7 +67,7 @@ class ThemeManager extends ChangeNotifier {
       genericButtonTextColor: Colors.white,
       genericCanvasColor: ColorPalette.darkGray,
       genericPrimaryTextColor: Colors.white,
-      genericCardColor: ColorPalette.medGray,
+      genericCardColor: ColorPalette.darkishGray,
       // drawer
       drawerHeaderColor: ColorPalette.medGray,
       drawerHeaderTextColor: Colors.white,
