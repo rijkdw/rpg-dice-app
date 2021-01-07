@@ -5,7 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/roller.dart';
 import 'package:rpg_dice/dice_engine/utils.dart';
+import 'package:rpg_dice/managers/distribution_manager.dart';
+import 'package:rpg_dice/managers/preferences_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
+import 'package:rpg_dice/objects/dice_collection.dart';
 import 'package:rpg_dice/utils.dart' as utils;
 
 Map<int, int> _callback(Map<String, dynamic> values) {
@@ -39,14 +42,14 @@ class DistributionViewer extends StatefulWidget {
   // -------------------------------------------------------------------------------------------------
   // attributes
   // -------------------------------------------------------------------------------------------------
-  String expression;
+  DiceCollection diceCollection;
   int numRepeats;
   ScrollController pageViewController;
 
   // -------------------------------------------------------------------------------------------------
   // constructor
   // -------------------------------------------------------------------------------------------------
-  DistributionViewer({this.expression, this.numRepeats, this.pageViewController});
+  DistributionViewer({this.diceCollection, this.numRepeats, this.pageViewController});
 
   @override
   _DistributionViewerState createState() => _DistributionViewerState();
@@ -62,7 +65,21 @@ class _DistributionViewerState extends State<DistributionViewer> {
 
   @override
   void initState() {
-    refreshDistribution();
+    // get the graph/list view from the PreferencesManager
+    Provider.of<PreferencesManager>(context, listen: false).getDistributionViewPreference().then((value) {
+      setState(() {
+        isShowingGraph = value;
+      });
+    });
+    // get the distribution if it exists from the DistributionManager
+    var distributionManager = Provider.of<DistributionManager>(context, listen: false);
+    if (distributionManager.hasDistribution(widget.diceCollection.id)) {
+      distributionFuture = Future.delayed(Duration(microseconds: 1), () {
+        return distributionManager.getDistribution(widget.diceCollection.id);
+      });
+    } else {
+      refreshDistribution();
+    }
     super.initState();
   }
 
@@ -70,13 +87,18 @@ class _DistributionViewerState extends State<DistributionViewer> {
   // functions
   // -------------------------------------------------------------------------------------------------
 
-  void invertView() => setState(() => isShowingGraph = !isShowingGraph);
+  void invertView() {
+    setState(() => isShowingGraph = !isShowingGraph);
+    Provider.of<PreferencesManager>(context, listen: false).setDistributionViewPreference(isShowingGraph);
+  }
 
   void refreshDistribution() {
     print('Refreshing distribution');
     setState(() {
-      distributionFuture = populateMap(widget.expression, widget.numRepeats);
+      distributionFuture = populateMap(widget.diceCollection.expression, widget.numRepeats);
     });
+    var distributionManager = Provider.of<DistributionManager>(context, listen: false);
+    distributionFuture.then((value) => distributionManager.setDistribution(widget.diceCollection.id, value));
   }
 
   // -------------------------------------------------------------------------------------------------
@@ -231,7 +253,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 101),
-                child: SpinKitWave(
+                child: SpinKitFoldingCube(
                   color: theme.rollerReadyIconColor,
                 ),
               ),

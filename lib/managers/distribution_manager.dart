@@ -11,26 +11,12 @@ class DistributionManager extends ChangeNotifier {
     _id2distributionMap = {};
   }
 
-  void createDistribution(DiceCollection diceCollection) {
-    print('DistributionManager creating distribution for ${diceCollection.name}');
-    Map<int, int> distribution = {};
-    for (var i = 0; i < 10000; i++) {
-      var value = Roller.roll(diceCollection.expression).total;
-      if (!distribution.keys.contains(value)) {
-        distribution[value] = 0;
-      }
-      distribution[value]++;
-    }
-    var mapKeys = distribution.keys.toList();
-    mapKeys.sort();
-    var newMap = <int, int>{};
-    for (var key in mapKeys) {
-      newMap[key] = distribution[key];
-    }
-    distribution = newMap;
-    _id2distributionMap[diceCollection.id] = distribution;
-    print('DistributionManager done creating distribution.');
-    notifyListeners();
+  void setDistribution(int id, Map<int, int> distribution) {
+    _id2distributionMap[id] = distribution;
+  }
+
+  bool hasDistribution(int id) {
+    return _id2distributionMap.containsKey(id);
   }
 
   Map<int, int> getDistribution(int id) {
@@ -38,13 +24,6 @@ class DistributionManager extends ChangeNotifier {
       return {};
     }
     return _id2distributionMap[id];
-  }
-
-  int getMaxOfDistribution(int id) {
-    if (!_id2distributionMap.keys.contains(id)) {
-      return 0;
-    }
-    return maxInList(_id2distributionMap[id].values);
   }
 
 }

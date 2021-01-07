@@ -31,7 +31,7 @@ class ThemeManager extends ChangeNotifier {
       // list tile
       listTileIconColor: Colors.red,
       listTileTitleTextColor: Colors.black,
-      listTileSubtitleTextColor: ColorPalette.medGray,
+      listTileSubtitleTextColor: ColorPalette.gray130,
       // list view
       listViewBackgroundColor: Colors.white,
       listViewScrollBarColor: ColorPalette.white180,

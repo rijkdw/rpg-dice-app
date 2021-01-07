@@ -77,10 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: theme.appbarColor,
         actions: [
-          // IconButton(
-          //   icon: Icon(Icons.bug_report),
-          //   onPressed: debugFunction,
-          // ),
+          IconButton(
+            icon: Icon(Icons.bug_report),
+            onPressed: debugFunction,
+          ),
           IconButton(
             icon: Icon(showingListView ? Icons.view_module : Icons.view_list),
             onPressed: switchView,
