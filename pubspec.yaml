@@ -33,6 +33,7 @@ dependencies:
   petitparser:
   shared_preferences:
   fl_chart:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:
