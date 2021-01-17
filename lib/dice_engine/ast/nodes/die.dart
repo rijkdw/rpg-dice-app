@@ -48,6 +48,12 @@ class Die extends Node {
   @override
   String visualise() => '$value';
 
+  @override
+  List<num> get possibilities => makeList(1, size);
+
+  @override
+  Node get copy => Die(size, value);
+
   // override Object methods
 
   @override
@@ -64,4 +70,5 @@ void main() {
   for (var size in [4, 6, 8, 10, 12, 20]) {
     print(Die.roll(size));
   }
+  print(Die(6, 1).possibilities);
 }

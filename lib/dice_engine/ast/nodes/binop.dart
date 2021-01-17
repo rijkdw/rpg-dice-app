@@ -1,4 +1,3 @@
-import '../../utils.dart';
 import '../objects/token.dart';
 import 'die.dart';
 import 'node.dart';
@@ -40,6 +39,31 @@ class BinOp extends Node {
     }
     return 0;
   }
+
+  // @override
+  // List<num> get possibilities {
+  //   var returnList = <num>[];
+  //   for (var leftPoss in left.possibilities) {
+  //     for (var rightPoss in right.possibilities) {
+  //       if (op.type == TokenType.PLUS) {
+  //         returnList.add(leftPoss+rightPoss);
+  //       }
+  //       if (op.type == TokenType.MINUS) {
+  //         returnList.add(leftPoss-rightPoss);
+  //       }
+  //       if (op.type == TokenType.MUL) {
+  //         returnList.add(leftPoss*rightPoss);
+  //       }
+  //       if (op.type == TokenType.DIV) {
+  //         returnList.add(leftPoss/rightPoss);
+  //       }
+  //     }
+  //   }
+  //   return returnList;
+  // }
+
+  @override
+  Node get copy => BinOp(left.copy, token.copy, right.copy);
 
   // override Object methods
 

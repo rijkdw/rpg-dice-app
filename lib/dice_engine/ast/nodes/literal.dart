@@ -26,6 +26,12 @@ class Literal extends Node {
   @override
   List<Die> get die => [];
 
+  @override
+  List<num> get possibilities => [literalValue];
+
+  @override
+  Node get copy => Literal(token.copy);
+
   // override Object methods
 
   @override

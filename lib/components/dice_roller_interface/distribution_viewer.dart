@@ -14,22 +14,18 @@ import 'package:rpg_dice/utils.dart' as utils;
 Map<int, int> _callback(Map<String, dynamic> values) {
   int numRepeats = values['numRepeats'];
   String expression = values['expression'];
-  var map = <int, int>{};
-  for (var i = 0; i < numRepeats; i++) {
-    var value = Roller.roll(expression).total;
-    if (!map.keys.contains(value)) {
-      map[value] = 0;
-    }
-    map[value]++;
-  }
-  var mapKeys = map.keys.toList();
-  mapKeys.sort();
-  var newMap = <int, int>{};
-  for (var key in mapKeys) {
-    newMap[key] = map[key];
-  }
-  map = newMap;
-  return map;
+  // var map = <int, int>{};
+  // for (var i = 0; i < numRepeats; i++) {
+  //   var value = Roller.roll(expression).total;
+  //   if (!map.keys.contains(value)) {
+  //     map[value] = 0;
+  //   }
+  //   map[value]++;
+  // }
+  var results = Roller.rollN(expression, numRepeats);
+  var totals = results.map((result) => result.total).toList();
+  var map = listToCountMap(totals);
+  return utils.sortMapKeys(map);
 }
 
 Future<Map<int, int>> populateMap(String expression, int numRepeats) async {
@@ -143,7 +139,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
                   textAlign: TextAlign.right,
                 ),
                 Text(
-                  '${map[value] / utils.roundToNDecimals(sumList(map.values.toList()) / 100, 3)}%',
+                  '${utils.roundToNDecimals(map[value] / sumList(map.values.toList()) * 100, 1)}%',
                   style: TextStyle(fontSize: 18, color: theme.genericPrimaryTextColor),
                   textAlign: TextAlign.right,
                 ),
@@ -271,9 +267,11 @@ class _DistributionViewerState extends State<DistributionViewer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // the header (title + actions)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // title
                   Text(
                     'Distribution',
                     style: TextStyle(
@@ -281,6 +279,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
                       fontSize: 20,
                     ),
                   ),
+                  // actions
                   Row(
                     children: [
                       InkWell(
@@ -294,6 +293,18 @@ class _DistributionViewerState extends State<DistributionViewer> {
                         onTap: () {
                           refreshDistribution();
                         },
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                      ),
+                      InkWell(
+                        child: Container(
+                          child: Icon(
+                            isShowingGraph ? Icons.list : Icons.graphic_eq,
+                            size: 30,
+                            color: theme.rollerCardHeadingColor,
+                          ),
+                        ),
+                        onTap: invertView,
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                       ),
@@ -321,12 +332,7 @@ class _DistributionViewerState extends State<DistributionViewer> {
                 firstChild: Column(
                   children: [
                     SizedBox(height: 10),
-                    InkWell(
-                      onTap: invertView,
-                      focusColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      child: theView,
-                    ),
+                    theView,
                   ],
                 ),
                 secondChild: Container(),

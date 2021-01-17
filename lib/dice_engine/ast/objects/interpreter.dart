@@ -29,9 +29,9 @@ class Interpreter extends NodeVisitor {
     }
   }
 
-  // ===========================================================================
-  // VISIT NODE METHODS
-  // ===========================================================================
+  // ------------------------------------------------------------
+  // visit methods
+  // ------------------------------------------------------------
 
   dynamic visitBinOp(BinOp node) {
     visit(node.left);
@@ -56,8 +56,17 @@ class Interpreter extends NodeVisitor {
     node.applySetOps();
   }
 
+  // ------------------------------------------------------------
+  // "main" method
+  // ------------------------------------------------------------
+
   Node interpret() {
     var tree = parser.parse();
+    visit(tree);
+    return tree;
+  }
+
+  Node interpretTree(Node tree) {
     visit(tree);
     return tree;
   }

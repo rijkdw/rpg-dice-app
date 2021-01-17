@@ -128,7 +128,7 @@ class _AddNewDiceCollectionFormState extends State<AddNewDiceCollectionForm> {
               width: double.infinity,
               alignment: Alignment.center,
               child: Text(
-                widget.diceCollection == null ? 'ADD' : 'EDIT',
+                widget.diceCollection == null ? 'CREATE' : 'EDIT',
                 style: buttonTextStyle,
               ),
             ),

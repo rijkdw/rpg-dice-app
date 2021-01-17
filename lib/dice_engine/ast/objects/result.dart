@@ -22,3 +22,7 @@ class Result {
   String toString() => 'Result(expr=$expr, tree=$tree)';
 
 }
+
+class DiceResult {
+
+}

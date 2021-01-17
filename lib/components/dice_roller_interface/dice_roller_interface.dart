@@ -94,7 +94,7 @@ class _DiceRollerInterfaceState extends State<DiceRollerInterface> {
         padding: EdgeInsets.all(10),
         child: DistributionViewer(
           diceCollection: (diceCollection ?? DiceCollection.dummy()),
-          numRepeats: 10000,
+          numRepeats: 100000,
           pageViewController: widget._pageViewController,
         ),
       ),

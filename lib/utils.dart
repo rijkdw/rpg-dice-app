@@ -48,3 +48,13 @@ dynamic randomFromList(List list) {
   var random = Random();
   return list[random.nextInt(list.length)];
 }
+
+Map<dynamic, dynamic> sortMapKeys(Map<dynamic, dynamic> inMap) {
+  var returnMap = {};
+  var mapKeys = inMap.keys.toList();
+  mapKeys.sort();
+  for (var key in mapKeys) {
+    returnMap[key] = inMap[key];
+  }
+  return returnMap;
+}
