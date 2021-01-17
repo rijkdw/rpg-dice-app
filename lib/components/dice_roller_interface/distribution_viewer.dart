@@ -25,7 +25,7 @@ Map<int, int> _callback(Map<String, dynamic> values) {
   var results = Roller.rollN(expression, numRepeats);
   var totals = results.map((result) => result.total).toList();
   var map = listToCountMap(totals);
-  return utils.sortMapKeys(map);
+  return Map<int, int>.from(utils.sortMapKeys(map));
 }
 
 Future<Map<int, int>> populateMap(String expression, int numRepeats) async {
