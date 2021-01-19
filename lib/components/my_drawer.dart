@@ -6,6 +6,7 @@ import 'package:rpg_dice/screens/balance_screen.dart';
 
 import 'package:rpg_dice/constants.dart' as constants;
 import 'package:rpg_dice/screens/help_screen.dart';
+import 'package:rpg_dice/screens/settings_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -43,7 +44,11 @@ class MyDrawer extends StatelessWidget {
     var settingsMenuItem = _MenuListTile(
       text: 'Settings',
       iconData: Icons.settings,
-      onTap: () {}, // TODO
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SettingsScreen(),
+        ));
+      }, // TODO
     );
 
     var helpMenuItem = _MenuListTile(

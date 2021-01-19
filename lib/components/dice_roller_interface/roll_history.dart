@@ -15,7 +15,7 @@ class RollHistory extends StatelessWidget {
   // -------------------------------------------------------------------------------------------------
   // constructor
   // -------------------------------------------------------------------------------------------------
-  RollHistory(this.id);
+  RollHistory({@required this.id});
 
   @override
   Widget build(BuildContext context) {

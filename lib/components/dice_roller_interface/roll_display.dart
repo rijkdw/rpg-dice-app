@@ -3,11 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rpg_dice/dice_engine/ast/nodes/die.dart';
 import 'package:rpg_dice/dice_engine/ast/objects/result.dart';
-import 'package:rpg_dice/dice_engine/utils.dart';
 import 'package:rpg_dice/managers/collection_manager.dart';
 import 'package:rpg_dice/managers/history_manager.dart';
 import 'package:rpg_dice/managers/theme_manager.dart';
-import 'package:rpg_dice/utils.dart';
 
 class RollDisplay extends StatelessWidget {
   int id;
